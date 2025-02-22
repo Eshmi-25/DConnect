@@ -1,0 +1,97 @@
+:root {
+    --color-white: #FFFFFF;
+    --color-dark-gray: #414656;
+    --color-charcoal: #2e2d2d;
+
+    --color-primary-button: #8B7CFB;
+    --color-blue: #20B6FD;
+    --color-turquoise: #8AFFFE;
+    --color-highlight: #796DD3;
+}
+
+
+body {
+    background-color:var(--color-charcoal);
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    background-color:var(--color-charcoal);
+  }
+  
+  .navbar button {
+    margin-left: 10px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+  }
+  
+  .navbar button {
+    background-color:var(--color-primary-button);
+    color: var(--color-white);
+    width: 10%;
+    height: 5%;
+  }
+  
+  /* Landing Page Container */
+  .landing-container {
+    margin-top: 5%;
+    margin-left: 10%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color:var(--color-charcoal);
+    text-align: right;
+  }
+  
+  .landing-logo {
+    width: 300px; 
+    height: auto; 
+    display: block; 
+    max-width: 80vw; 
+    max-height: 80vh;
+}
+  
+  /* Headings */
+  .landing-title {
+    font-size: 7rem;
+    color: #8ec5fc;
+    margin-right: 40%;
+    margin-top: -19%;
+  }
+  
+  .landing-subtitle {
+    font-size: 1.2rem;
+    color:var(--color-white);
+    margin-right: 55%;
+    margin-top: -5%;
+  }
+  
+  .landing-image {
+    width: 200px;
+   margin-right: 5%;
+   margin-top:-15%;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    padding: 12px;
+    width: 50%;
+    max-width: 500px;
+    border-radius: 10px;
+    border: none;
+    background: #2c2c2c;
+    color: white;
+  }
+  
+  
