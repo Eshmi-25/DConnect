@@ -1,0 +1,138 @@
+:root {
+    --color-white: #FFFFFF;
+    --color-dark-gray: #414656;
+    --color-charcoal: #2e2d2d;
+
+    --color-primary-button: #8B7CFB;
+    --color-blue: #20B6FD;
+    --color-turquoise: #8AFFFE;
+    --color-highlight: #796DD3;
+}
+
+
+body {
+    background-color:var(--color-charcoal);
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    background-color:var(--color-charcoal);
+  }
+  
+  .navbar button {
+    margin-left: 2%;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: medium;
+  }
+  
+  .navbar button {
+    background-color:var(--color-primary-button);
+    color: var(--color-white);
+    width: 10%;
+    height: 5%;
+  }
+  
+  /* Landing Page Container */
+  .landing-container {
+    margin-top: 5%;
+    margin-left: 10%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color:var(--color-charcoal);
+    text-align: right;
+  }
+  
+  .landing-logo {
+    width: 25%; 
+    height: auto; 
+    display: block; 
+    max-width: 80vw; 
+    max-height: 80vh;
+}
+  
+  /* Headings */
+  .landing-title {
+    font-size: 7rem;
+    color: #8ec5fc;
+    margin-right: 40%;
+    margin-top: -21%;
+  }
+  
+  .landing-subtitle {
+    font-size: 1.2rem;
+    color:var(--color-white);
+    margin-right: 55%;
+    margin-top: -6%;
+  }
+  
+  .landing-image {
+   width: 200px;
+   margin-right: 5%;
+   margin-top:-20%;
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%; 
+    max-width: 40%; 
+    background: var(--color-white);
+    border-radius: 20px;
+    padding: 2px;
+    margin-left:24% ;
+}
+
+.search-bar {
+    flex: 1; 
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--color-highlight);
+    background: transparent;
+}
+
+.mini-search {
+    width: 15%; 
+    height: 55px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-highlight);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.search-icon {
+    width: 80%; 
+    height: 100%;
+}
+
+.slanted-section {
+  background:var(--color-blue); 
+  padding: 100px 0;
+  clip-path: polygon(0 90%, 100% 0, 100% 100%, 0 100%);
+  margin-top: -15%;
+}
+
+.slanted-section1 {
+  background:var(--color-primary-button); 
+  padding: 100px 0;
+  clip-path: polygon(0 70%, 100% 0, 100% 100%, 0 100%);
+  margin-top: -10%;
+}
+
+  

@@ -1,0 +1,73 @@
+:root {
+    --color-white: #FFFFFF;
+    --color-dark-gray: #414656;
+    --color-charcoal: #2e2d2d;
+
+    --color-primary-button: #8B7CFB;
+    --color-blue: #20B6FD;
+    --color-turquoise: #8AFFFE;
+    --color-highlight: #796DD3;
+}
+
+.htw_container{
+    background-color: var(--color-primary-button);
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+  .htw_content {
+    color:var(--color-white);
+    max-width: 100%;
+    
+  }
+  
+  .htw_title {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 2.2;
+    margin-bottom: 20%;
+    margin-left: 10%;
+  }
+  
+  .htw_steps {
+    background-color: var(--color-primary-button);
+    flex-direction: column;
+    margin-left: 40%;
+    margin-top: -50%;
+  }
+  
+  .htw_step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .htw_number {
+    background: var(--color-charcoal);
+    color: var(--color-white);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+
+  .htw_slanted-section1{
+    background:var(--color-primary-button); 
+    padding: 100px 0;
+    clip-path: polygon(100 90%, 80% 0, 100% 100%, 0 100%);
+    margin-top: 10%;
+  }
+
+  .htw_slanted-section {
+    background:var(--color-charcoal); 
+    padding: 100px 0;
+    clip-path: polygon(0 0, 10% 10%, 100% 100%, 0 100%);
+    margin-top: -13%;
+  }
+
+  
+  
