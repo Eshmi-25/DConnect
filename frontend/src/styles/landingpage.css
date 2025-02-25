@@ -17,7 +17,7 @@ body {
   }
   
   .navbar {
-  width: 95%;  
+  width: 98%;  
   height: 40px; 
   background:var(--color-charcoal); 
   display: flex;
@@ -43,15 +43,15 @@ body {
 
   /* Landing Page Container */
   .landing-container {
-    margin-top: 10%;
+    margin-top: 20%;
     height: 100vh;
     background-color:var(--color-charcoal);
     text-align: right;
   }
   
   .landing-logo {
-    margin-left: 25%;
-    width: 40%; 
+    margin-left: 35%;
+    width: 50%; 
     height: auto; 
     display: block; 
     max-width: 80vw; 
@@ -62,8 +62,8 @@ body {
   font-size: 6rem;
   color: #8ec5fc;
   text-align: right; 
-  margin-top: -35%; 
-  margin-left: 38%;
+  margin-top: -45%; 
+  margin-left: 78%;
   width: 100%; 
 }
 
@@ -71,14 +71,14 @@ body {
   .landing-subtitle {
     font-size: 1.2rem;
     color:var(--color-white);
-    margin-left: 14%;
-    margin-top: -6%;
+    margin-left: 46%;
+    margin-top: -12%;
     width: 100%;
   }
   
   .landing-image {
    width: 25%;
-   margin-left: 150%;
+   margin-left: 210%;
    margin-top:-35%;
   }
   
@@ -86,12 +86,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 72%; 
+    width: 77%; 
     height: 8%;
     background: var(--color-white);
     border-radius: 20px;
     padding: 1px;
-    margin-left:66% ;
+    margin-left:85% ;
 }
 
 .search-bar {
@@ -123,15 +123,15 @@ body {
 
 .slanted-section {
  background: var(--color-blue);
- margin-top: -20%;
- padding: 14% 94%;
+ margin-top: -38%;
+ padding: 14% 117%;
  clip-path: polygon(0 90%, 100% 0, 100% 100%, 0 100%);
  
 }
 
 .slanted-section1 {
   background:var(--color-primary-button); 
-  padding: 14% 94%;
+  padding: 14% 122%;
   clip-path: polygon(0 70%, 100% 0, 100% 100%, 0 100%);
   margin-top: -22%;
 }
