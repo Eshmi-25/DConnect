@@ -9,3 +9,23 @@
     --color-highlight: #796DD3;
 }
 
+.htw_container{
+  background-color: var(--color-primary-button);
+    
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.htw_content {
+  color:var(--color-white);
+  max-width: 100%;
+}
+
+.htw_title {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 2.2;
+    margin-bottom: 20%;
+    margin-left: 10%;
+  }
