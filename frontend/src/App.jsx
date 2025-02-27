@@ -1,12 +1,17 @@
 import React from "react";
 import LandingPage from "./pages/LandingPage";
-import HowItWorks from "./components/HowItWorks";
+import HowItWorks from "./pages/HowItWorks";
 
 function App() {
   return (
-    <div>
-      <LandingPage />
-    </div>
+    <div className="relative">
+  <LandingPage />
+  <div className="mt-[-50px]">
+    <HowItWorks />
+  </div>
+</div>
+
+    
   );
 }
 

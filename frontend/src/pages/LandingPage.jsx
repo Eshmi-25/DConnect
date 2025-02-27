@@ -18,7 +18,7 @@ const LandingPage = () => {
           sign up
         </Button>
       </div>
-      <div className="flex items-center pl-20">
+      <div className="flex items-center pl-30">
         <img src={logo} alt="logo" />
         <div className="gap-2 flex flex-col">
           <h1 className="text-5xl font-medium text-[#AFFEFF]">D-Connect</h1>
