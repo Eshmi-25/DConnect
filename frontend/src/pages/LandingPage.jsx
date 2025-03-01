@@ -6,15 +6,23 @@ import banner from "../assets/landing-banner-img.svg";
 import "../styles/landingpage.css";
 import { TextField, Button } from "@mui/material";
 import { IoIosSearch } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col relative">
       <div className="flex gap-5 items-end justify-end p-5">
-        <Button variant="contained" size="small" sx={{ background: "#8B7CFB" }}>
+        <Button variant="contained" size="small" sx={{ background: "#8B7CFB" }} onClick={() => navigate("/LoginPage")}>
           login
         </Button>
-        <Button variant="contained" size="small" sx={{ background: "#8B7CFB" }}>
+        <Button 
+          variant="contained" 
+          size="small" 
+          sx={{ background: "#8B7CFB" }} 
+          onClick={() => navigate("/SignUp")}
+        >
           sign up
         </Button>
       </div>

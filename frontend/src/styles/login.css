@@ -1,0 +1,35 @@
+:root {
+    --color-white: #FFFFFF;
+    --color-dark-gray: #414656;
+    --color-charcoal: #2e2d2d;
+
+    --color-primary-button: #8B7CFB;
+    --color-blue: #20B6FD;
+    --color-turquoise: #8AFFFE;
+    --color-highlight: #796DD3;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .login_container {
+    width: 50%;
+     
+  }
+  
+  .login_logo {
+    position: absolute;
+    top: 2%;
+    margin-left: -40%;
+    transform: translateX(-50%);
+  }
+  
+  .login_man img {
+    width: 620px;
+    margin-left: 45%;
+    height: 110%;
+  }
+  
