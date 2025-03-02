@@ -13,7 +13,7 @@ const LandingPage = () => {
   return (
     <div className="flex flex-col relative">
       <div className="flex gap-5 items-end justify-end p-5">
-        <Button variant="contained" size="small" onClick={() => navigate("/Login")} sx={{ background: "#8B7CFB" }} >
+        <Button variant="contained" size="small"  sx={{ background: "#8B7CFB" }} onClick={() => navigate("/login")} >
           login
         </Button>
         <Button 
