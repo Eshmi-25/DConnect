@@ -2,6 +2,7 @@ import React from "react";
 import { IoMdSearch } from "react-icons/io";
 import { FaHandshake, FaAward } from "react-icons/fa";
 import "../styles/howItWorks.css"; 
+import bottom_banner from "../assets/bottom_banner.png"
 
 const HowItWorks = () => {
   return (
@@ -42,7 +43,9 @@ const HowItWorks = () => {
           </p>
         </div>
       </div>
-      <div className="htw_slant"></div>
+      <div className=" bottom_banner absolute">
+              <img src={bottom_banner} alt="" className="w-screen"/>
+            </div>
     </div>
   );
 };

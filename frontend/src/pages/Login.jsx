@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/login.css";
 import logo from "../assets/logo.png";
 import person from "../assets/login_man.png";
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -21,17 +23,16 @@ const Login = () => {
       <div className="mb-4">
         <img src={logo} alt="logo" className="w-26 h-26 login_logo" />
       </div>
-
       {/* Main Login Section */}
       <div className="flex bg-transparent w-3/4 max-w-4xl p-6 rounded-lg">
         {/* Left Side: Login Form */}
         <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-1/2">
           <h2 className="text-white text-3xl font-semibold text-center mb-6">
-            Login
+          Login
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-white mb-2">Username</label>
+              <label className="block text-white mb-2"><PersonIcon />Username</label>
               <input
                 type="text"
                 name="username"
@@ -42,7 +43,7 @@ const Login = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-white mb-2">Password</label>
+              <label className="block text-white mb-2"><LockIcon />Password</label>
               <input
                 type="password"
                 name="password"
@@ -67,7 +68,6 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Right Side: Illustration */}
         <div className="login_man flex justify-center items-center">
           <img src={person} alt="login_man" className="w-3/4" />
         </div>
