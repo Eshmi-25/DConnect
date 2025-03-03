@@ -28,7 +28,7 @@ const JobDetails = () => {
       </div>
 
       {/* Divider Line */}
-      <hr className="border-blue-700 mb-4" />
+      <hr className="border-purple-400 mb-4" />
 
       <div><img src={Project_Banner} alt="Project Banner" className="w-full rounded-lg mb-5" /></div>
 
@@ -41,20 +41,27 @@ const JobDetails = () => {
           <h1 className="text-3xl font-bold text-purple-400">E-Commerce Website for Fashion Brand</h1>
           <p className="text-gray-400 text-sm mt-2"><Avatar alt="vincenzo cassano" src={image_avatar} />Posted by: <span className="text-white">Vincenzo Cassano</span></p>
 
-          <h2 className="text-xl font-semibold mt-6">Description</h2>
+          <h2 className="text-xl font-semibold mt-6 text-purple-400">Description</h2>
           <p className="text-gray-300 text-sm">Lorem ipsum dolor sit amet...</p>
 
-          <h2 className="text-xl font-semibold mt-4">Minimum NFTs desired</h2>
+          <h2 className="text-xl font-semibold mt-4 text-purple-400">Minimum NFTs desired</h2>
           <p className="text-gray-300 text-sm">4</p>
 
-          <h2 className="text-xl font-semibold mt-4">Estimated Duration</h2>
+          <h2 className="text-xl font-semibold mt-4 text-purple-400">Estimated Duration</h2>
           <p className="text-gray-300 text-sm">3 weeks</p>
 
-          <h2 className="text-xl font-semibold mt-4">Required Skills</h2>
+          <h2 className="text-xl font-semibold mt-4 text-purple-400">Required Skills</h2>
           <ul className="list-disc list-inside text-gray-300 text-sm">
             <li>Frontend development</li>
             <li>ReactJS</li>
           </ul>
+
+          <h2 className="text-xl font-semibold mt-4 text-purple-400">Additional Notes from Client</h2>
+          <ol className="list-disc list-inside text-gray-300 text-sm">
+            <li>Lorem ipsum dolor sit amet.</li> 
+            <li>vel dolores minus.</li>
+            <li>Ea minus harum est officia rerum qui </li>
+          </ol>
         </div>
 
         {/* Right Section - Application Form */}
