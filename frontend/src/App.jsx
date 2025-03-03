@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import HowItWorks from "./pages/HowItWorks";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login"; 
+import Projectpage from "./pages/Projectpage";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           </div>
         } />
         <Route path="/login" element={<Login/>} />
-        <Route path="/SignUp" element={<SignUp/>} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/project" element={<Projectpage/>} />
       </Routes>
     </Router>
   );

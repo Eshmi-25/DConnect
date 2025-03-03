@@ -20,7 +20,7 @@ const LandingPage = () => {
           variant="contained" 
           size="small" 
           sx={{ background: "#8B7CFB" }} 
-          onClick={() => navigate("/SignUp")}
+          onClick={() => navigate("/signup")}
         >
           sign up
         </Button>
