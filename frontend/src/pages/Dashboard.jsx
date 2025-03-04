@@ -11,6 +11,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import InfoIcon from '@mui/icons-material/Info';
 import ShareIcon from '@mui/icons-material/Share';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 
 const Dashboard = () => {
   return (
@@ -34,14 +35,14 @@ const Dashboard = () => {
         </div>
       </div>
          <hr className="border-purple-400 mb-4" />
+         
          {/* User and Active Projects */}
          <div className="flex gap-6">
-         <div className="relative w-2/5 mt-8 ">
-
-         <p className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-blue-400 flex items-center gap-1 mb-4 font-bold">
-           <PersonOutlineOutlinedIcon className="text-blue-400 large" /> User
-         </p>
-       
+            
+         <div className="relative w-2/5 mt-4 ">
+         <h2 className="text-xl font-bold text-purple-400 mb-4 ml-2 font-bold">
+           <PersonOutlineOutlinedIcon /> User
+         </h2>
          {/* Profile Card */}
          <div className="bg-gray-800 p-6 rounded-2xl border border-blue-500 flex flex-col items-center text-center mb-4">
          <div className="absolute right-2 bg-purple-500 p-1 rounded-full">
@@ -85,9 +86,9 @@ const Dashboard = () => {
        </div>
        
         {/* Active Projects */}
-        <div className="w-3/4 bg-gray-800 p-6 rounded-2xl border border-purple-500">
-          <h2 className="text-xl font-bold text-purple-400 mb-4">Active Projects</h2>
-
+        <div className="w-3/4 ">
+          <h2 className="text-xl font-bold text-purple-400 mb-4 ml-2"><AccountTreeOutlinedIcon/> Active Projects</h2>
+          <div className="bg-gray-800 p-6 rounded-2xl border border-purple-500">
           {/* Hiring For Section */}
           <h3 className="text-lg font-semibold mb-2">Hiring For</h3>
           <div className="bg-gray-700 p-4 rounded-lg">
@@ -108,6 +109,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Projects Section */}
