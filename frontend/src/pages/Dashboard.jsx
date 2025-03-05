@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, TextField } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Logo from "../assets/logo.png";
+
 import Avatar from '@mui/material/Avatar';
 import Image_Avatar from "../assets/image.png";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -12,6 +13,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ShareIcon from '@mui/icons-material/Share';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 
 const Dashboard = () => {
   return (
@@ -86,35 +88,71 @@ const Dashboard = () => {
        </div>
        
         {/* Active Projects */}
-        <div className="w-3/4 ">
-          <h2 className="text-xl font-bold text-purple-400 mb-4 ml-2"><AccountTreeOutlinedIcon/> Active Projects</h2>
-          <div className="bg-gray-800 p-6 rounded-2xl border border-purple-500">
-          {/* Hiring For Section */}
-          <h3 className="text-lg font-semibold mb-2">Hiring For</h3>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <div className="flex justify-between text-gray-300">
-              <p className="w-1/4">E-Commerce Website</p>
-              <p className="w-1/2 text-sm">Lorem ipsum dolor sit amet...</p>
-              <p className="w-1/4 text-sm text-right">Rhivak Sarkar</p>
-            </div>
-          </div>
 
-          {/* Working On Section */}
-          <h3 className="text-lg font-semibold mt-4">Working On</h3>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <div className="flex justify-between text-gray-300">
-              <p className="w-1/4">E-Commerce Website</p>
-              <p className="w-1/2 text-sm">Lorem ipsum dolor sit amet...</p>
-              <p className="w-1/4 text-sm text-right">Edgar L. Knowles</p>
-            </div>
-          </div>
+        <div className="w-3/4">
+      <h2 className="text-xl font-bold text-purple-400 mb-4 ml-2 flex items-center">
+        <AccountTreeOutlinedIcon className="mr-2" /> Active Projects
+      </h2>
+
+      <div className="bg-gray-800 p-6 rounded-2xl border border-purple-500">
+        {/* Hiring For Section */}
+        <h3 className="text-lg font-semibold mb-2 text-white">Hiring For</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-gray-700 rounded-lg">
+            <thead>
+              <tr className="text-gray-400 border-b border-gray-600">
+                <th className="p-3 text-left">Title</th>
+                <th className="p-3 text-left">Description</th>
+                <th className="p-3 text-left">Assigned to</th>
+                <th className="p-3 text-left">Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="text-gray-300 border-b border-gray-600">
+                <td className="p-3">E-Commerce Website for Fashion Brand</td>
+                <td className="p-3 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</td>
+                <td className="p-3 text-sm">Ritwick Sarkar</td>
+                <td className="p-3 text-sm">21 Feb 2026</td>
+              </tr>
+              <tr className="text-gray-300">
+                <td className="p-3">E-Commerce Website for Fashion Brand</td>
+                <td className="p-3 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</td>
+                <td className="p-3 text-sm">Ritwick Sarkar</td>
+                <td className="p-3 text-sm">21 Feb 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Working On Section */}
+        <h3 className="text-lg font-semibold mt-6 text-white">Working On</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-gray-700 rounded-lg">
+            <thead>
+              <tr className="text-gray-400 border-b border-gray-600">
+                <th className="p-3 text-left">Title</th>
+                <th className="p-3 text-left">Description</th>
+                <th className="p-3 text-left">Client</th>
+                <th className="p-3 text-left">Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="text-gray-300">
+                <td className="p-3">E-Commerce Website for Fashion Brand</td>
+                <td className="p-3 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</td>
+                <td className="p-3 text-sm">Edgar L. Knowles</td>
+                <td className="p-3 text-sm">21 Feb 2026</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
       </div>
 
       {/* Projects Section */}
       <div className="mt-10 border border-cyan-500 p-6 rounded-2xl">
-        <h2 className="text-xl font-bold text-cyan-400 mb-4">Projects</h2>
+        <h2 className="text-xl font-bold text-cyan-400 mb-4"><AssignmentOutlinedIcon/>Projects</h2>
 
         {/* Search and Filter Bar */}
         <div className="flex items-center gap-4 mb-6">
