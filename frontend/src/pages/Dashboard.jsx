@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, TextField } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Logo from "../assets/logo.png";
-
+import Image from "../assets/image.png";
 import Avatar from '@mui/material/Avatar';
 import Image_Avatar from "../assets/image.png";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -89,7 +89,7 @@ const Dashboard = () => {
        
         {/* Active Projects */}
 
-        <div className="w-3/4">
+      <div className="w-3/4">
       <h2 className="text-xl font-bold text-purple-400 mb-4 ml-2 flex items-center">
         <AccountTreeOutlinedIcon className="mr-2" /> Active Projects
       </h2>
@@ -108,18 +108,34 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="text-gray-300 border-b border-gray-600">
-                <td className="p-3">E-Commerce Website for Fashion Brand</td>
-                <td className="p-3 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</td>
-                <td className="p-3 text-sm">Ritwick Sarkar</td>
-                <td className="p-3 text-sm">21 Feb 2026</td>
+            {[
+              {
+                title: "E-Commerce Website for Fashion Brand",
+                description: "Lorem ipsum dolor sit amet",
+                avatar: Image,
+                name: "Song Joong-ki",
+                dueDate: "21 Feb 2026",
+              },
+              {
+                title: "E-Commerce Website for Fashion Brand",
+                description: "Lorem ipsum dolor sit amet",
+                avatar: Image,
+                name: "Jin Do-Jun",
+                dueDate: "21 Feb 2026",
+              },
+            ].map((job, index) => (
+              <tr
+                key={index}
+                className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600"
+              >
+                <td className="p-4 rounded-l-xl">{job.title}</td>
+                <td className="p-4 text-sm">{job.description}</td>
+                <td className="p-4 text-sm flex items-center gap-2">
+                  <Avatar src={job.avatar} /> {job.name}
+                </td>
+                <td className="p-4 text-sm rounded-r-xl">{job.dueDate}</td>
               </tr>
-              <tr className="text-gray-300">
-                <td className="p-3">E-Commerce Website for Fashion Brand</td>
-                <td className="p-3 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</td>
-                <td className="p-3 text-sm">Ritwick Sarkar</td>
-                <td className="p-3 text-sm">21 Feb 2026</td>
-              </tr>
+            ))}
             </tbody>
           </table>
         </div>
@@ -140,7 +156,7 @@ const Dashboard = () => {
               <tr className="text-gray-300">
                 <td className="p-3">E-Commerce Website for Fashion Brand</td>
                 <td className="p-3 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</td>
-                <td className="p-3 text-sm">Edgar L. Knowles</td>
+                <td className="p-3 text-sm"><Avatar  src={Image_Avatar} /> Edgar L. Knowles</td>
                 <td className="p-3 text-sm">21 Feb 2026</td>
               </tr>
             </tbody>
@@ -148,7 +164,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-      </div>
+    </div>
 
       {/* Projects Section */}
       <div className="mt-10 border border-cyan-500 p-6 rounded-2xl">
@@ -165,7 +181,10 @@ const Dashboard = () => {
           </div>
           <select className="bg-gray-700 text-white p-2 rounded">
             <option>NFT</option>
-          </select>
+          {[...Array(21)].map((_, i) => (
+            <option key={i} value={i}>{i}</option>
+          ))}
+        </select>
           <Button variant="contained" className="bg-purple-500 text-white">
             <AddIcon /> Create New
           </Button>
@@ -173,18 +192,23 @@ const Dashboard = () => {
 
         {/* Project Listings */}
         <div className="bg-gray-800 p-4 rounded-lg">
-          {[1, 2, 3].map((item) => (
-            <div key={item} className="flex justify-between items-center border-b border-gray-700 py-3">
-              <div className="w-1/4 text-gray-300">E-Commerce Website</div>
-              <div className="w-1/2 text-sm text-gray-400">Lorem ipsum dolor sit amet...</div>
-              <div className="w-1/6 text-gray-300">3 months</div>
-              <div className="w-1/6 text-gray-300 text-right">INR 50000.00</div>
-              <Button variant="contained" className="bg-blue-500 text-white">
-                Apply
-              </Button>
+        {[1, 2, 3].map((item) => (
+          <div key={item} className="bg-gray-900 p-4 rounded-2xl mb-4 flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
+              <Avatar src={Image} />
+              <span className="font-semibold">Edgar L. Knowles</span>
             </div>
-          ))}
-        </div>
+            <div className="w-full md:w-1/2 text-sm text-gray-400">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ea minus harum est officia rerum qui.
+            </div>
+            <div className="w-full md:w-1/6 text-gray-300 text-center">3 months</div>
+            <div className="w-full md:w-1/6 text-gray-300 text-center">INR 80000.00</div>
+            <div className="w-full md:w-auto">
+              <Button variant="contained" className="bg-purple-500 text-white">Apply</Button>
+            </div>
+          </div>
+        ))}
+      </div>
       </div>
     </div>
   );
