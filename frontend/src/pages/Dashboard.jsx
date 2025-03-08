@@ -192,8 +192,9 @@ const Dashboard = () => {
 
         {/* Project Listings */}
         <div className="bg-gray-800 p-4 rounded-lg">
-        {[1, 2, 3].map((item) => (
+        {[1, 2, 3, 4].map((item) => (
           <div key={item} className="bg-gray-900 p-4 rounded-2xl mb-4 flex flex-col md:flex-row justify-between items-center">
+            <div className="w-full md:w-1/6 text-gray-300 text-center">Title</div>
             <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
               <Avatar src={Image} />
               <span className="font-semibold">Edgar L. Knowles</span>
@@ -203,6 +204,7 @@ const Dashboard = () => {
             </div>
             <div className="w-full md:w-1/6 text-gray-300 text-center">3 months</div>
             <div className="w-full md:w-1/6 text-gray-300 text-center">INR 80000.00</div>
+            <div className="w-full md:w-1/6 text-gray-300 text-center">3 NFT</div>
             <div className="w-full md:w-auto">
               <Button variant="contained" className="bg-purple-500 text-white">Apply</Button>
             </div>
