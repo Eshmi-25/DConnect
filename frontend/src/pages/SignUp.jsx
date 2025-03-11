@@ -12,6 +12,16 @@ const SignUp = () => {
     phoneNo: "",
     password: "",
     confirmPassword: "",
+    bio: "",
+    expertise: "",
+    occupation: "",
+    country: "",
+    graduation: "",
+    linkedinUrl: "",
+    githubUrl: "",
+    dribbleUrl: "",
+    portfolioUrl: "",
+    profilePic: ""
   });
 
   const [error, setError] = useState("");
@@ -41,55 +51,39 @@ const SignUp = () => {
       {/* Main SignUp Section */}
       <div className="flex bg-transparent max-w-5xl p-6 rounded-lg">
         {/* Left Side: SignUp Form */}
-        <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-1/2 signup_container">
+        <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-1/2 signup_container overflow-y-auto max-h-[500px]">
           <h2 className="text-white text-3xl font-semibold text-center mb-6">
             Sign Up
           </h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-white mb-2"><PersonIcon/>Username</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-white mb-2"><PhoneIcon/>Phone Number</label>
-              <input
-                type="text"
-                name="phoneNo"
-                value={formData.phoneNo}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-white mb-2"><LockIcon/>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-white mb-2"><LockIcon/>Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
-            </div>
+            {[
+              { label: "Username *", name: "username", type: "text", icon: <PersonIcon /> },
+              { label: "Phone Number *", name: "phoneNo", type: "text", icon: <PhoneIcon /> },
+              { label: "Password *", name: "password", type: "password", icon: <LockIcon /> },
+              { label: "Confirm Password *", name: "confirmPassword", type: "password", icon: <LockIcon /> },
+              { label: "Bio *", name: "bio", type: "text" },
+              { label: "Expertise *", name: "expertise", type: "text" },
+              { label: "Occupation *", name: "occupation", type: "text" },
+              { label: "Country *", name: "country", type: "text" },
+              { label: "Graduation *", name: "graduation", type: "text" },
+              { label: "LinkedIn URL", name: "linkedinUrl", type: "url" },
+              { label: "GitHub URL", name: "githubUrl", type: "url" },
+              { label: "Dribble URL", name: "dribbleUrl", type: "url" },
+              { label: "Portfolio URL", name: "portfolioUrl", type: "url" },
+              { label: "Profile Picture URL", name: "profilePic", type: "url" },
+            ].map(({ label, name, type, icon }) => (
+              <div className="mb-4" key={name}>
+                <label className="block text-white mb-2">{icon} {label}</label>
+                <input
+                  type={type}
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required={!name.includes("Url")}
+                />
+              </div>
+            ))}
 
             {error && (
               <p className="text-red-500 text-center mb-4">{error}</p>
@@ -112,9 +106,8 @@ const SignUp = () => {
         </div>
         <div className="login_man flex justify-center items-center">
           <img src={person} alt="login_man" className="w-3/4" />
+        </div>
       </div>
-      </div>
-      
     </div>
   );
 };

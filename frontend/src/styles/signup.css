@@ -1,5 +1,15 @@
 
 .signup_container{
     margin-left: 5%;
+
   }
 
+.signup_container::-webkit-scrollbar-thumb {
+  background: #a855f7; 
+  border-radius: 10px;
+}
+
+.signup_container::-webkit-scrollbar-track {
+  background: #2d2d2d; /* Dark background */
+  border-radius: 10px;
+}
