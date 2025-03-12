@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Projectpage from "./pages/Projectpage";
 import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Dashboard from "./pages/Dashboard";
+import Contract from "./pages/ProjectContact";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/project" element={<Projectpage/>} />
         <Route path="/projectcreation" element={<ProjectCreationPage/>} />
-        
+        <Route path="/projectcontract" element={<Contract/>} />
       </Routes>
     </Router>
   );
