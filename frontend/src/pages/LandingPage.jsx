@@ -65,7 +65,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="absolute">
+      <div className="absolute -z-10">
         <img src={banner} alt="" className="w-screen"/>
       </div>
     </div>
