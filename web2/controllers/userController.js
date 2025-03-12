@@ -71,6 +71,28 @@ const getUserProfile = async (req, res) => {
     }
 };
 
+// Get Users by name
+const findUserByName = async (req, res) => {
+    try {
+        const { name } = req.body;
+
+        if (!name) {
+            return res.status(400).json({ message: "Name is required" });
+        }
+
+        const users = await User.find({ name: { $regex: `^${name}`, $options: "i" } });
+
+        if (users.length > 0) {
+            res.json(users);
+        } else {
+            res.status(404).json({ message: "No users found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Server Error" });
+    }
+};
+
+
 // Update User Profile
 const updateUserProfile = async (req, res) => {
     try {
@@ -98,4 +120,4 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile };
+module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile, findUserByName };
