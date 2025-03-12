@@ -5,8 +5,10 @@ import person from "../assets/login_man.png";
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LockIcon from '@mui/icons-material/Lock';
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     phoneNo: "",
@@ -98,11 +100,14 @@ const SignUp = () => {
           </form>
 
           <p className="text-center text-gray-400 mt-4">
-            Already have an account?{" "}
-            <a href="#" className="text-purple-400">
-              Login
-            </a>
-          </p>
+  Already have an account?{" "}
+  <span
+    onClick={() => navigate("/login")}
+    className="text-purple-400 cursor-pointer hover:underline"
+  >
+    Login
+  </span>
+</p>
         </div>
         <div className="login_man flex justify-center items-center">
           <img src={person} alt="login_man" className="w-3/4" />

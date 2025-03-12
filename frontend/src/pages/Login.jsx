@@ -4,8 +4,10 @@ import logo from "../assets/logo.png";
 import person from "../assets/login_man.png";
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
@@ -61,11 +63,14 @@ const Login = () => {
             </button>
           </form>
           <p className="text-center text-gray-400 mt-4">
-            Don't have an account?{" "}
-            <a href="#" className="text-purple-400">
-              Sign Up
-            </a>
-          </p>
+  Don't have an account?{" "}
+  <span
+    onClick={() => navigate("/signup")}
+    className="text-purple-400 cursor-pointer hover:underline"
+  >
+    Sign In
+  </span>
+</p>
         </div>
 
         <div className="login_man flex justify-center items-center">
