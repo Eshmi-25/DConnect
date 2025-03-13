@@ -70,8 +70,9 @@ const Explore = () => {
         {/* NFT Filter */}
         <select className="p-2 rounded bg-gray-800 text-white">
           <option>NFT</option>
-          <option>Web Developer</option>
-          <option>Designer</option>
+          {[...Array(21)].map((_, i) => (
+            <option key={i} value={i}>{i}</option>
+          ))}
         </select>
 
         {/* Dropdown Filter Button */}
@@ -95,7 +96,7 @@ const Explore = () => {
               max={20}
             />
           </MenuItem>
-          <MenuItem>
+          <MenuItem >
             <Typography>Rating</Typography>
             <Slider
               value={filters.rating}
@@ -123,6 +124,7 @@ const Explore = () => {
           src={Image_Avatar}
           alt="User Avatar"
           className="w-10 h-10 rounded-full cursor-pointer"
+          onClick={() => navigate("/dashboard")}
         />
       </div>
 

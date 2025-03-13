@@ -206,7 +206,7 @@ const Dashboard = () => {
             <div className="w-full md:w-1/6 text-gray-300 text-center">INR 80000.00</div>
             <div className="w-full md:w-1/6 text-gray-300 text-center">3 NFT</div>
             <div className="w-full md:w-auto">
-              <Button variant="contained" className="bg-purple-500 text-white">Apply</Button>
+              <Button variant="contained" className="bg-purple-500 text-white">Edit</Button>
             </div>
           </div>
         ))}
