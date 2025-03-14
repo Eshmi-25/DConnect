@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import Logo from "../assets/logo.png";
 import Avatar from '@mui/material/Avatar';
-import Image_Avatar from "../assets/image.png";
+import Image_Avatar from "../assets/image1.png";
+import User_Avatar from "../assets/image.png";
 import { Menu, MenuItem, Slider, Button, Typography } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -121,7 +122,7 @@ const Explore = () => {
 
         {/* Avatar */}
         <img
-          src={Image_Avatar}
+          src={User_Avatar}
           alt="User Avatar"
           className="w-10 h-10 rounded-full cursor-pointer"
           onClick={() => navigate("/dashboard")}
@@ -134,7 +135,7 @@ const Explore = () => {
           <div
             key={index}
             className="bg-gradient-to-b from-gray-300 to-blue-500 p-4 rounded-xl cursor-pointer hover:shadow-lg transition"
-            onClick={() => navigate(`/profile/${profile.id}`)}
+            onClick={() => navigate(`/profile`)}     //${profile.id}
           >
             <div className="flex items-center gap-3">
               <Avatar alt="Profile" src={Image_Avatar} sx={{ width: 40, height: 40 }} />
