@@ -16,6 +16,7 @@ import Education from '@mui/icons-material/SchoolOutlined';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Portfolio from '@mui/icons-material/Language';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import Apply from '@mui/icons-material/CallMade';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -94,8 +95,8 @@ const ProfilePage = () => {
         </div>
 
         {/* Right - NFTs and Stats */}
-        <div className="bg-gray-800 p-6 rounded-lg flex-1">
-          <div className="flex justify-between">
+        <div className="bg-gray-800 p-6 rounded-lg flex-1 border border-blue-600">
+          <div className="flex justify-between ">
           <h1 className="text-4xl font-bold">NFTs</h1>
 
             <button className="bg-purple-500 px-3 py-1 rounded flex items-center gap-1">
@@ -133,12 +134,12 @@ const ProfilePage = () => {
       
 
       {/* Activity Section */}
-      <div className="mt-6 bg-gray-800 p-6 rounded-lg">
+      <div className="mt-6 bg-gray-800 p-6 rounded-lg border border-blue-400 ml-4">
         <h3 className="text-lg font-bold mb-3">Activity</h3>
 
         <table className="w-full text-sm text-gray-400">
           <thead>
-            <tr className="border-b border-gray-700">
+            <tr className="border-b border-purple-700">
               <th className="text-left p-2">Title</th>
               <th className="text-left p-2">Description</th>
               <th className="p-2">Duration</th>
@@ -156,7 +157,7 @@ const ProfilePage = () => {
                 <td className="p-2 text-center">2+</td>
                 <td className="p-2 text-center">INR 800000</td>
                 <td className="p-2 text-center">
-                  <button className="bg-purple-500 px-3 py-1 rounded text-white">APPLY</button>
+                  <button className="bg-purple-500 px-3 py-1 rounded text-white">APPLY <Apply/></button>
                 </td>
               </tr>
             ))}
