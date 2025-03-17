@@ -96,7 +96,8 @@ const ProfilePage = () => {
         {/* Right - NFTs and Stats */}
         <div className="bg-gray-800 p-6 rounded-lg flex-1">
           <div className="flex justify-between">
-            <h3 className="text-lg font-bold">NFTs</h3>
+          <h1 className="text-4xl font-bold">NFTs</h1>
+
             <button className="bg-purple-500 px-3 py-1 rounded flex items-center gap-1">
               <FaShareAlt /> Share Profile
             </button>
@@ -104,18 +105,32 @@ const ProfilePage = () => {
 
           {/* NFT Display */}
           <div className="flex gap-3 mt-4">
-            <img src={NFT1} alt="NFT" className="w-16 h-16" />
-            <img src={NFT2} alt="NFT" className="w-16 h-16" />
+            <img src={NFT1} alt="NFT" className="w-36 h-36" />
+            <img src={NFT2} alt="NFT" className="w-36 h-36" />
+            <img src={NFT2} alt="NFT" className="w-36 h-36" />
           </div>
+          <div className="mt-4 p-4 bg-gray-800 rounded-lg shadow-lg text-gray-400 text-sm">
+  <h3 className="text-lg font-semibold text-white mb-6">Project Overview</h3>
+  <div className="grid grid-cols-3 gap-4">
+    <div className="flex flex-col items-center">
+      <span className="text-2xl font-bold text-red-400">0</span>
+      <p className="text-xs">Initiated</p>
+    </div>
+    <div className="flex flex-col items-center">
+      <span className="text-2xl font-bold text-green-400">3</span>
+      <p className="text-xs">Completed</p>
+    </div>
+    <div className="flex flex-col items-center">
+      <span className="text-2xl font-bold text-blue-400">2</span>
+      <p className="text-xs">Assigned</p>
+    </div>
+  </div>
+</div>
 
-          {/* Stats */}
-          <div className="mt-4 text-gray-400 text-sm">
-            <p>Projects Initiated: <span className="text-white">0</span></p>
-            <p>Projects Completed: <span className="text-white">2</span></p>
-            <p>Projects Assigned: <span className="text-white">3</span></p>
-          </div>
         </div>
+        
       </div>
+      
 
       {/* Activity Section */}
       <div className="mt-6 bg-gray-800 p-6 rounded-lg">
@@ -138,10 +153,10 @@ const ProfilePage = () => {
                 <td className="p-2">E-Commerce Website</td>
                 <td className="p-2">Lorem ipsum dolor sit amet...</td>
                 <td className="p-2 text-center">3 months</td>
-                <td className="p-2 text-center">4+</td>
+                <td className="p-2 text-center">2+</td>
                 <td className="p-2 text-center">INR 800000</td>
                 <td className="p-2 text-center">
-                  <button className="bg-purple-500 px-3 py-1 rounded">Go</button>
+                  <button className="bg-purple-500 px-3 py-1 rounded text-white">APPLY</button>
                 </td>
               </tr>
             ))}
