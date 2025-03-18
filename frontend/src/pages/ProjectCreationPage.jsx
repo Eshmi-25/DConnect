@@ -54,9 +54,9 @@ const CreateProject = () => {
     setMessage("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/projects", formData, {
+      const response = await axios.post("http://localhost:3000/api/projects", formData, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true, // Ensures cookies (like auth tokens) are sent
+        withCredentials: true, 
       });
 
       setMessage("Project created successfully!");
@@ -195,19 +195,28 @@ const CreateProject = () => {
             <TextField variant="filled" fullWidth label="Your question" className="bg-gray-400 rounded-2xl" />
           </div>
           <div className="flex justify-end"Cancel><Button size="medium">Save</Button><Button size="medium">Cancel</Button></div>
+          {/*
           <div className="mt-4 mb-4 ">
             <TextField variant="filled" fullWidth label="How Many years of experience do you Have in Python?" className="bg-gray-400 rounded-2xl " />
-          </div>
-          <div className="flex justify-end">
-          <Button variant="outlined" startIcon={<DeleteIcon />} sx={{ color: "white", borderColor: "red", "&:hover": { borderColor: "darkred", backgroundColor: "rgba(255, 0, 0, 0.1)" }}}>
-           Delete
-           </Button>
-           </div>
-           </div>
+          </div>*/}
+           {/* Display Added Questions */}
+           {formData.questions.map((q, index) => (
+              <div key={index} className="mt-4 flex justify-between items-center bg-gray-700 p-2 rounded">
+                <p className="text-white">{q}</p>
+                <Button
+                  variant="outlined"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => handleRemoveQuestion(index)}
+                  sx={{ color: "white", borderColor: "red", "&:hover": { borderColor: "darkred", backgroundColor: "rgba(255, 0, 0, 0.1)" } }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
            <p className="text-gray-400 mt-4 text-center">The applications for this project will show up on the applications tab. It is strongly recommended that you connect with the candidate you choose and discuss the specifics via their e-mail address before generating the contract.</p>
            <button className="mt-4 w-full bg-purple-500 text-white p-2 rounded" onClick={handleSubmit} disabled={loading}><AddCircleOutlineIcon/>Create Project</button>
         </div>
-       
+       </div>
       </div> 
     </div>
   );
