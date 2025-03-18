@@ -5,9 +5,30 @@ import AddIcon from "@mui/icons-material/Add";
 import Logo from "../assets/logo.png";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Avatar from '@mui/material/Avatar';
+import Image_Avatar from "../assets/image.png";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 
 const CreateProject = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    budget: "",
+    minNFT: "",
+    keywords: "",
+    additionalNotes: "",
+    estdDuration: "",
+    questions: [],
+  });
+
+  const [newQuestion, setNewQuestion] = useState(""); 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Header with Logo and Search Bar */}
@@ -17,7 +38,7 @@ const CreateProject = () => {
           <img src={Logo} alt="Logo" className="w-25 h-25" />
         </div>
         
-        <div className="relative w-4/5">
+        <div className="relative w-3/4">
           <input
             type="text"
             placeholder="Search by name or designation"
@@ -27,6 +48,15 @@ const CreateProject = () => {
             <SearchIcon/>
           </button>
         </div>
+        <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
+         Log Out
+          </button>
+                        <img
+                          src={Image_Avatar}
+                          alt="User Avatar"
+                          className="w-10 h-10 rounded-full cursor-pointer"
+                          onClick={() => navigate("/dashboard")}
+                        />
       </div>
       <hr className="border-purple-400 mb-4" />
       {/* Main Content */}

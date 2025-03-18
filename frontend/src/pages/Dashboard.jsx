@@ -14,9 +14,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Search Bar */}
@@ -195,7 +198,7 @@ const Dashboard = () => {
             <option key={i} value={i}>{i}</option>
           ))}
         </select>
-          <Button variant="contained" className="bg-purple-500 text-white">
+          <Button variant="contained" className="bg-purple-500 text-white" onClick={() => navigate("/projectcreation")}>
             <AddIcon /> Create New
           </Button>
         </div>
