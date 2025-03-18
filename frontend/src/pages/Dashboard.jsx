@@ -15,6 +15,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 
+
 const Dashboard = () => {
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -25,7 +26,7 @@ const Dashboard = () => {
           <img src={Logo} alt="Logo" className="w-25 h-25" />
         </div>
         
-        <div className="relative w-4/5">
+        <div className="relative w-3/4">
           <input
             type="text"
             placeholder="Search by name or designation"
@@ -35,6 +36,15 @@ const Dashboard = () => {
             <SearchIcon/>
           </button>
         </div>
+         <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
+                    Log Out
+                  </button>
+                <img
+                  src={Image_Avatar}
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  onClick={() => navigate("/dashboard")}
+                />
       </div>
          <hr className="border-purple-400 mb-4" />
          

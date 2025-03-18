@@ -121,6 +121,9 @@ const Explore = () => {
         </Menu>
 
         {/* Avatar */}
+        <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
+            Log Out
+          </button>
         <img
           src={User_Avatar}
           alt="User Avatar"
