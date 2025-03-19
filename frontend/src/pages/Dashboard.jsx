@@ -15,11 +15,32 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
 
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [postedProjects, setPostedProjects] = useState([]);
+  const [assignedProjects, setAssignedProjects] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+        try {
+            const postedRes = await axios.get("/api/projects/postedByUser");
+            setPostedProjects(postedRes.data);
+
+            const assignedRes = await axios.get("/api/projects/assignedToUser");
+            setAssignedProjects(assignedRes.data);
+        } catch (err) {
+            setError("Failed to load projects.");
+        }
+    };
+
+    fetchProjects();
+}, []);
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
