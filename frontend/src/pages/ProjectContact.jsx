@@ -1,8 +1,13 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "../assets/logo.png";
+import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
+import User_Avatar from "../assets/image.png";
+import { useNavigate } from "react-router-dom";
 
 const ProjectContractPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Search Bar */}
@@ -10,7 +15,7 @@ const ProjectContractPage = () => {
         <div>
           <img src={Logo} alt="Logo" className="w-20 h-20" />
         </div>
-        <div className="relative w-4/5">
+        <div className="relative w-2/3">
           <input
             type="text"
             placeholder="Search by name or designation"
@@ -19,6 +24,20 @@ const ProjectContractPage = () => {
           <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-purple-500 p-3 rounded-full">
             <SearchIcon />
           </button>
+        </div>
+        <div className="flex items-center gap-4">
+          <button className="bg-gray-800 p-2 rounded" onClick={() => navigate("/explore")}>
+            <TravelExploreOutlinedIcon/>
+          </button>
+          <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
+            Log Out
+          </button>
+          <img
+                    src={User_Avatar}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full cursor-pointer"
+                    onClick={() => navigate("/dashboard")}
+                  />
         </div>
       </div>
       <hr className="border-purple-400 mb-4" />

@@ -15,11 +15,12 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { useNavigate } from "react-router-dom";
+import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
 
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Search Bar */}
@@ -29,7 +30,7 @@ const Dashboard = () => {
           <img src={Logo} alt="Logo" className="w-25 h-25" />
         </div>
         
-        <div className="relative w-3/4">
+        <div className="relative w-2/3">
           <input
             type="text"
             placeholder="Search by name or designation"
@@ -39,6 +40,9 @@ const Dashboard = () => {
             <SearchIcon/>
           </button>
         </div>
+        <button className="bg-gray-800 p-2 rounded" onClick={() => navigate("/explore")}>
+            <TravelExploreOutlinedIcon/>
+          </button>
          <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
                     Log Out
                   </button>
@@ -219,7 +223,7 @@ const Dashboard = () => {
             <div className="w-full md:w-1/6 text-gray-300 text-center">INR 80000.00</div>
             <div className="w-full md:w-1/6 text-gray-300 text-center">3 NFT</div>
             <div className="w-full md:w-auto">
-              <Button variant="contained" className="bg-purple-500 text-white">Edit</Button>
+              <Button variant="contained" className="bg-purple-500 text-white"  onClick={() => handleEditProject(project)}>Edit</Button>
             </div>
           </div>
         ))}

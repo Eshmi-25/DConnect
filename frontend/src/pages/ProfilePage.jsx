@@ -157,7 +157,7 @@ const ProfilePage = () => {
                 <td className="p-2 text-center">2+</td>
                 <td className="p-2 text-center">INR 800000</td>
                 <td className="p-2 text-center">
-                  <button className="bg-purple-500 px-3 py-1 rounded text-white">APPLY <Apply/></button>
+                  <button className="bg-purple-500 px-3 py-1 rounded text-white" onClick={() => navigate("/projectcontract")}>APPLY <Apply/></button>
                 </td>
               </tr>
             ))}
