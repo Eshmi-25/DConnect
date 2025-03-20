@@ -1,12 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "../assets/logo.png";
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
 import User_Avatar from "../assets/image.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const ProjectContractPage = () => {
+
+const API_BASE_URL = "http://localhost:3000/api";
+
+const ProjectContractPage = ({ token }) => {
   const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState("");
+  const [answers, setAnswers] = useState("");
+  const [message, setMessage] = useState("");
+
+  // Fetch user's projects for dropdown
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/projects/my-projects`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setProjects(response.data);
+      } catch (error) {
+        console.error("Error fetching projects:", error.response?.data?.message || error.message);
+      }
+    };
+
+    fetchProjects();
+  }, [token]);
+
+  // Handle Apply for Project
+  const handleApply = async () => {
+    if (!selectedProject) {
+      setMessage("Please select a project.");
+      return;
+    }
+
+    try {
+      await applyForProject(token, selectedProject, answers);
+      setMessage("Project application submitted successfully!");
+    } catch (error) {
+      setMessage(error);
+    }
+  };
+
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -60,15 +100,39 @@ const ProjectContractPage = () => {
       {/* Contract Form */}
       <div className="bg-gray-800 p-6 rounded-lg border border-blue-500 max-w-3xl mx-auto">
         <label className="block text-white mb-2">Select Your Project</label>
-        <select className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500">
+       {/*} <select className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500">
           <option>Drop down of user’s projects</option>
+        </select>*/}
+        <select
+          className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
+          value={selectedProject}
+          onChange={(e) => setSelectedProject(e.target.value)}
+        >
+          <option value="">Select a project</option>
+          {projects.map((project) => (
+            <option key={project._id} value={project._id}>
+              {project.name}
+            </option>
+          ))}
         </select>
+
+         {/* Answer Input */}
+         <label className="block text-white mt-4">Application Details</label>
+        <textarea
+          className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
+          placeholder="Enter your application details..."
+          value={answers}
+          onChange={(e) => setAnswers(e.target.value)}
+        ></textarea>
+
+
         <div className="flex justify-center mt-4">
-  <button className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg font-semibold transition duration-300">
-    Generate
+  <button className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg font-semibold transition duration-300" onClick={handleApply}>
+    Apply
   </button>
 </div>
-
+{/* Success/Error Message */}
+{message && <p className="text-center text-red-400 mt-4">{message}</p>}
       </div>
     </div>
   );

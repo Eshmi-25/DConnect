@@ -21,6 +21,8 @@ import Apply from '@mui/icons-material/CallMade';
 const ProfilePage = () => {
   const navigate = useNavigate();
 
+  
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-6">
       {/* Header with Search Bar and Navigation Icons */}
