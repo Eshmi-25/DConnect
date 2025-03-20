@@ -13,7 +13,7 @@ const profiles = Array(12).fill().map((_, index) => ({
   id: index + 1,
   name: `User ${index + 1}`,
   nfts: Math.floor(Math.random() * 21),  // Random NFTs between 0-20
-  rating: (Math.random() * 4 + 1).toFixed(1), // Random rating between 1-5
+  
   experience: Math.floor(Math.random() * 11), // Experience 0-10 years
   description: "Experienced freelancer delivering high-quality services with efficiency and professionalism. Let's work together to bring your project to life!",
 }));
@@ -25,7 +25,7 @@ const Explore = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [filters, setFilters] = useState({
     nfts: [0, 20],
-    rating: [1, 5],
+    
     experience: [0, 10],
   });
 
@@ -43,8 +43,7 @@ const Explore = () => {
     (profile) =>
       profile.nfts >= filters.nfts[0] &&
       profile.nfts <= filters.nfts[1] &&
-      profile.rating >= filters.rating[0] &&
-      profile.rating <= filters.rating[1] &&
+      
       profile.experience >= filters.experience[0] &&
       profile.experience <= filters.experience[1]
   );
@@ -97,17 +96,7 @@ const Explore = () => {
               max={20}
             />
           </MenuItem>
-          <MenuItem >
-            <Typography>Rating</Typography>
-            <Slider
-              value={filters.rating}
-              onChange={(e, newValue) => handleSliderChange("rating", newValue)}
-              valueLabelDisplay="auto"
-              min={1}
-              max={5}
-              step={0.1}
-            />
-          </MenuItem>
+         
           <MenuItem>
             <Typography>Experience (Years)</Typography>
             <Slider
@@ -145,7 +134,7 @@ const Explore = () => {
               <div>
                 <h2 className="text-lg font-bold text-black">Name: {profile.name}</h2>
                 <p className="text-sm text-black">NFTs: {profile.nfts}</p>
-                <p className="text-sm text-black">Rating: {profile.rating} ⭐</p>
+                
                 <p className="text-sm text-black">Experience: {profile.experience} years</p>
               </div>
             </div>

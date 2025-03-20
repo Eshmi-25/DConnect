@@ -26,6 +26,11 @@ const Dashboard = () => {
   const [assignedProjects, setAssignedProjects] = useState([]);
   const [error, setError] = useState("");
 
+  const handleViewProfile = (email) => {
+    const mode = email === loggedInUserEmail ? "owner" : "view"; 
+    navigate(`/user/${email}?mode=${mode}`);
+};
+
   useEffect(() => {
     const fetchProjects = async () => {
         try {
@@ -175,6 +180,21 @@ const Dashboard = () => {
               </tr>
             ))}
             </tbody>
+            {/*<tbody>
+                {postedProjects.map((project, index) => (
+                  <tr key={index} className="text-gray-300">
+                    <td className="p-4">{project.title}</td>
+                    <td className="p-4 text-sm">{project.description}</td>
+                    <td
+                      className="p-4 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
+                      onClick={() => handleViewProfile(project.assignedToEmail)}
+                    >
+                      <Avatar src={project.assignedToAvatar} /> {project.assignedTo}
+                    </td>
+                    <td className="p-4 text-sm">{project.dueDate}</td>
+                  </tr>
+                ))}
+              </tbody>*/}
           </table>
         </div>
 
@@ -198,6 +218,21 @@ const Dashboard = () => {
                 <td className="p-3 text-sm">21 Feb 2026</td>
               </tr>
             </tbody>
+            {/*<tbody>
+                {assignedProjects.map((project, index) => (
+                  <tr key={index} className="text-gray-300">
+                    <td className="p-3">{project.title}</td>
+                    <td className="p-3 text-sm">{project.description}</td>
+                    <td
+                      className="p-3 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
+                      onClick={() => handleViewProfile(project.clientEmail)}
+                    >
+                      <Avatar src={project.clientAvatar} /> {project.clientName}
+                    </td>
+                    <td className="p-3 text-sm">{project.dueDate}</td>
+                  </tr>
+                ))}
+              </tbody>*/}
           </table>
         </div>
       </div>
