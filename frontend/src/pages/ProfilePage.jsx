@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { FaShareAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -20,8 +20,15 @@ import Apply from '@mui/icons-material/CallMade';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
 
-  
+  const handleShareProfile = () => {
+    const profileURL = window.location.href;
+    navigator.clipboard.writeText(profileURL).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+    });
+  };
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-6">
@@ -101,8 +108,13 @@ const ProfilePage = () => {
           <div className="flex justify-between ">
           <h1 className="text-4xl font-bold">NFTs</h1>
 
-            <button className="bg-purple-500 px-3 py-1 rounded flex items-center gap-1">
+            <button className="bg-purple-500 px-3 py-1 rounded flex items-center gap-1" onClick={handleShareProfile}>
               <FaShareAlt /> Share Profile
+              {copied && (
+        <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs py-1 px-2 rounded">
+          Link Copied!
+        </span>
+      )}
             </button>
           </div>
 
