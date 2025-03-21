@@ -181,8 +181,8 @@ const Dashboard = () => {
             </tbody>
             {/*<tbody>
                 {postedProjects.map((project, index) => (
-                  <tr key={index} className="text-gray-300">
-                    <td className="p-4">{project.title}</td>
+                  <tr key={index} className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600">
+                    <td className="p-4 rounded-l-xl">{project.title}</td>
                     <td className="p-4 text-sm">{project.description}</td>
                     <td
                       className="p-4 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
@@ -190,7 +190,7 @@ const Dashboard = () => {
                     >
                       <Avatar src={project.assignedToAvatar} /> {project.assignedTo}
                     </td>
-                    <td className="p-4 text-sm">{project.dueDate}</td>
+                    <td className="p-4 text-sm rounded-r-xl">{project.dueDate}</td>
                   </tr>
                 ))}
               </tbody>*/}
