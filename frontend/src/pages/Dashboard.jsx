@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import EditProject from "../components/EditProject";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,14 +17,42 @@ import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Grid, Typography } from "@mui/material";
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
 
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [postedProjects, setPostedProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [assignedProjects, setAssignedProjects] = useState([]);
   const [error, setError] = useState("");
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get("/api/projects");
+      setProjects(response.data);
+    } catch (err) {
+      console.error("Error fetching projects:", err);
+    }
+  };
+
+  const handleEditClick = (project) => {
+    setSelectedProject(project); // Set the project data to be edited
+    setOpenEditModal(true); // Open the modal
+  };
+
+  // Handle closing the Edit Project modal
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+    setSelectedProject(null); // Reset selected project when closing the modal
+  };
+
+  // Refresh the projects list after editing
+  const refreshProjects = () => {
+    fetchProjects(); // Reload the list of projects
+  };
 
   const handleViewProfile = (email) => {
     const mode = email === loggedInUserEmail ? "owner" : "view"; 
@@ -278,7 +307,20 @@ const Dashboard = () => {
             <div className="w-full md:w-1/6 text-gray-300 text-center">INR 80000.00</div>
             <div className="w-full md:w-1/6 text-gray-300 text-center">3 NFT</div>
             <div className="w-full md:w-auto">
-              <Button variant="contained" className="bg-purple-500 text-white"  onClick={() => handleEditProject(project)}>Edit</Button>
+            <Button
+              variant="contained"
+                className="bg-purple-500 text-white"
+              onClick={() => handleEditClick(project)}
+                 >
+             Edit
+             </Button>
+            
+             <EditProject
+        open={openEditModal}
+        handleClose={handleCloseEditModal}
+        project={selectedProject}
+        refreshProjects={refreshProjects}
+      />
             </div>
           </div>
         ))}

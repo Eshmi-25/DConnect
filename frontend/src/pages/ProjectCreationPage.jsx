@@ -122,13 +122,13 @@ const CreateProject = () => {
           <div className="mt-6">
             <label className="block text-purple-400">Project Title</label>
             <p className="text-gray-400 text-sm mt-2">Make this short and concise but give your prospective hires a basic idea of what you are looking for. Eg: E-Commerce website for a fashion brand</p>
-            <TextField placeholder="Your answer..." value={formData.name} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+            <TextField required placeholder="Your answer..." value={formData.name} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Description</label>
             <p className="text-gray-400 text-sm mt-2">Describe your project in as much detail as possible without including any confidential or personal details.</p>
-            <TextField placeholder="Your answer..." value={formData.description} onChange={handleChange} variant="filled"  fullWidth multiline rows={3} className="bg-gray-700 rounded mt-1" />
+            <TextField required placeholder="Your answer..." value={formData.description} onChange={handleChange} variant="filled"  fullWidth multiline rows={3} className="bg-gray-700 rounded mt-1" />
             
           </div>
 
@@ -136,31 +136,31 @@ const CreateProject = () => {
             <div className="w-1/2">
               <label className="block text-purple-400">NFTs Required</label>
               <p className="text-gray-400 text-sm mt-2">Specify the minimum number of NFTs your ideal candidate should have.</p>
-              <TextField  placeholder="Your answer..." value={formData.minNFT} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+              <TextField required placeholder="Your answer..." value={formData.minNFT} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
               <p className="block text-red-400">*Note that this is only a guideline for applicants. Applications with lesser NFTs will NOT be auto-rejected.</p>
             </div>
             <div className="w-1/2">
               <label className="block text-purple-400">Expected Duration</label>
               <p className="text-gray-400 text-sm mt-2">Give an estimate in WEEKS based on when you need the project delivered.</p>
-              <TextField placeholder="Your answer..." value={formData.estdDuration} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" /> 
+              <TextField required placeholder="Your answer..." value={formData.estdDuration} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" /> 
               <p className="block text-red-400">*This may be negotiated later by the applicant and is NOT final. D-Connect takes no responsibility for the final deadline that gets agreed upon.</p>
             </div>
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Your Budget</label><p className="text-gray-400 text-sm mt-2">Give an approximate budget that you are willing to pay. This will not be the final amount as it may be negotiated by applicants. This is only a guideline for applicants.</p>
-            <TextField placeholder="Your answer..." value={formData.budget} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+            <TextField required placeholder="Your answer..." value={formData.budget} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Required Skills</label> 
             <p className="text-gray-400 text-sm mt-2">Give a brief of the skills you are looking for. Bullet point or numbered list format works best!</p>
-            <TextField placeholder="Your answer..." value={formData.keywords} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+            <TextField required placeholder="Your answer..." value={formData.keywords} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Additional Notes</label><p className="text-gray-400 text-sm mt-2">Anything else you want to communicate?</p>
-            <TextField placeholder="Your answer..."ss variant="filled" fullWidth multiline rows={2} className="bg-gray-700 rounded mt-1" />
+            <TextField required placeholder="Your answer..."ss variant="filled" fullWidth multiline rows={2} className="bg-gray-700 rounded mt-1" />
           </div>
         </div>
 
