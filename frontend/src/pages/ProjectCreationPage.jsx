@@ -37,15 +37,20 @@ const CreateProject = () => {
   // Add a new question
   const handleAddQuestion = () => {
     if (newQuestion.trim() !== "") {
-      setFormData({ ...formData, questions: [...formData.questions, newQuestion] });
+      setFormData((prev) => ({
+        ...prev,
+        questions: [...prev.questions, newQuestion],
+      }));
       setNewQuestion(""); // Reset input field
     }
   };
 
   // Remove a question
   const handleRemoveQuestion = (index) => {
-    const updatedQuestions = formData.questions.filter((_, i) => i !== index);
-    setFormData({ ...formData, questions: updatedQuestions });
+    setFormData((prev) => ({
+      ...prev,
+      questions: prev.questions.filter((_, i) => i !== index),
+    }));
   };
 
   // Handle form submission
@@ -190,15 +195,21 @@ const CreateProject = () => {
               Add New
             </Button>
           </div>
+          <div className="mt-4 mb-4">
 
           <div className="mt-4 mb-4 ">
             <TextField variant="filled" fullWidth label="Your question" className="bg-gray-400 rounded-2xl" />
           </div>
-          <div className="flex justify-end"Cancel><Button size="medium">Save</Button><Button size="medium">Cancel</Button></div>
-          {/*
-          <div className="mt-4 mb-4 ">
-            <TextField variant="filled" fullWidth label="How Many years of experience do you Have in Python?" className="bg-gray-400 rounded-2xl " />
-          </div>*/}
+          <div className="flex justify-end"Cancel><Button size="medium" onClick={handleAddQuestion}>Save</Button>
+          <Button size="medium" onClick={() => setNewQuestion("")}>Cancel</Button></div>
+         {/*} <TextField
+    variant="filled"
+    fullWidth
+    className="bg-gray-400 rounded-2xl"
+    value={newQuestion} 
+    onChange={(e) => setNewQuestion(e.target.value)} 
+  />*/}
+</div>
            {/* Display Added Questions */}
            {formData.questions.map((q, index) => (
               <div key={index} className="mt-4 flex justify-between items-center bg-gray-700 p-2 rounded">
