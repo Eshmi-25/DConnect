@@ -37,15 +37,20 @@ const CreateProject = () => {
   // Add a new question
   const handleAddQuestion = () => {
     if (newQuestion.trim() !== "") {
-      setFormData({ ...formData, questions: [...formData.questions, newQuestion] });
+      setFormData((prev) => ({
+        ...prev,
+        questions: [...prev.questions, newQuestion],
+      }));
       setNewQuestion(""); // Reset input field
     }
   };
 
   // Remove a question
   const handleRemoveQuestion = (index) => {
-    const updatedQuestions = formData.questions.filter((_, i) => i !== index);
-    setFormData({ ...formData, questions: updatedQuestions });
+    setFormData((prev) => ({
+      ...prev,
+      questions: prev.questions.filter((_, i) => i !== index),
+    }));
   };
 
   // Handle form submission
@@ -122,13 +127,13 @@ const CreateProject = () => {
           <div className="mt-6">
             <label className="block text-purple-400">Project Title</label>
             <p className="text-gray-400 text-sm mt-2">Make this short and concise but give your prospective hires a basic idea of what you are looking for. Eg: E-Commerce website for a fashion brand</p>
-            <TextField placeholder="Your answer..." value={formData.name} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+            <TextField name="name" required placeholder="Your answer..." value={formData.name} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Description</label>
             <p className="text-gray-400 text-sm mt-2">Describe your project in as much detail as possible without including any confidential or personal details.</p>
-            <TextField placeholder="Your answer..." value={formData.description} onChange={handleChange} variant="filled"  fullWidth multiline rows={3} className="bg-gray-700 rounded mt-1" />
+            <TextField name="description" required placeholder="Your answer..." value={formData.description} onChange={handleChange} variant="filled"  fullWidth multiline rows={3} className="bg-gray-700 rounded mt-1" />
             
           </div>
 
@@ -136,31 +141,31 @@ const CreateProject = () => {
             <div className="w-1/2">
               <label className="block text-purple-400">NFTs Required</label>
               <p className="text-gray-400 text-sm mt-2">Specify the minimum number of NFTs your ideal candidate should have.</p>
-              <TextField  placeholder="Your answer..." value={formData.minNFT} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+              <TextField name="minNFT" type="number" required placeholder="Your answer..." value={formData.minNFT} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
               <p className="block text-red-400">*Note that this is only a guideline for applicants. Applications with lesser NFTs will NOT be auto-rejected.</p>
             </div>
             <div className="w-1/2">
               <label className="block text-purple-400">Expected Duration</label>
               <p className="text-gray-400 text-sm mt-2">Give an estimate in WEEKS based on when you need the project delivered.</p>
-              <TextField placeholder="Your answer..." value={formData.estdDuration} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" /> 
+              <TextField name="estdDuration" type="number" required placeholder="Your answer..." value={formData.estdDuration} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" /> 
               <p className="block text-red-400">*This may be negotiated later by the applicant and is NOT final. D-Connect takes no responsibility for the final deadline that gets agreed upon.</p>
             </div>
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Your Budget</label><p className="text-gray-400 text-sm mt-2">Give an approximate budget that you are willing to pay. This will not be the final amount as it may be negotiated by applicants. This is only a guideline for applicants.</p>
-            <TextField placeholder="Your answer..." value={formData.budget} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+            <TextField type="number" required name="budget" placeholder="Your answer..." value={formData.budget} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Required Skills</label> 
-            <p className="text-gray-400 text-sm mt-2">Give a brief of the skills you are looking for. Bullet point or numbered list format works best!</p>
-            <TextField placeholder="Your answer..." value={formData.keywords} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
+            <p name="keywords" className="text-gray-400 text-sm mt-2">Give a brief of the skills you are looking for. Bullet point or numbered list format works best!</p>
+            <TextField required placeholder="Your answer..." value={formData.keywords} onChange={handleChange} variant="filled" fullWidth className="bg-gray-700 rounded mt-1" />
           </div>
 
           <div className="mt-4">
             <label className="block text-purple-400">Additional Notes</label><p className="text-gray-400 text-sm mt-2">Anything else you want to communicate?</p>
-            <TextField placeholder="Your answer..."ss variant="filled" fullWidth multiline rows={2} className="bg-gray-700 rounded mt-1" />
+            <TextField name="additionalNotes" required placeholder="Your answer..."ss variant="filled" fullWidth multiline rows={2} className="bg-gray-700 rounded mt-1" />
           </div>
         </div>
 
@@ -190,15 +195,21 @@ const CreateProject = () => {
               Add New
             </Button>
           </div>
+          <div className="mt-4 mb-4">
 
           <div className="mt-4 mb-4 ">
             <TextField variant="filled" fullWidth label="Your question" className="bg-gray-400 rounded-2xl" />
           </div>
-          <div className="flex justify-end"Cancel><Button size="medium">Save</Button><Button size="medium">Cancel</Button></div>
-          {/*
-          <div className="mt-4 mb-4 ">
-            <TextField variant="filled" fullWidth label="How Many years of experience do you Have in Python?" className="bg-gray-400 rounded-2xl " />
-          </div>*/}
+          <div className="flex justify-end"Cancel><Button size="medium" onClick={handleAddQuestion}>Save</Button>
+          <Button size="medium" onClick={() => setNewQuestion("")}>Cancel</Button></div>
+         {/*} <TextField
+    variant="filled"
+    fullWidth
+    className="bg-gray-400 rounded-2xl"
+    value={newQuestion} 
+    onChange={(e) => setNewQuestion(e.target.value)} 
+  />*/}
+</div>
            {/* Display Added Questions */}
            {formData.questions.map((q, index) => (
               <div key={index} className="mt-4 flex justify-between items-center bg-gray-700 p-2 rounded">

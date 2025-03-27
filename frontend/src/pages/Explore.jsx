@@ -7,6 +7,7 @@ import Image_Avatar from "../assets/image1.png";
 import User_Avatar from "../assets/image.png";
 import { Menu, MenuItem, Slider, Button, Typography } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import FilterDropdown from "../components/FilterDropdown";
 
 // Dummy Profiles
 const profiles = Array(12).fill().map((_, index) => ({
@@ -75,39 +76,8 @@ const Explore = () => {
           ))}
         </select>
 
-        {/* Dropdown Filter Button */}
-        <Button
-          onClick={openMenu}
-          variant="contained"
-          sx={{ background: "#6B7280", color: "white" }}
-        >
-          All Filters < ArrowDropDownIcon/>
-        </Button>
-
-        {/* Filter Dropdown Menu */}
-        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={closeMenu}>
-          <MenuItem>
-            <Typography>No. of NFTs</Typography>
-            <Slider
-              value={filters.nfts}
-              onChange={(e, newValue) => handleSliderChange("nfts", newValue)}
-              valueLabelDisplay="auto"
-              min={0}
-              max={20}
-            />
-          </MenuItem>
-         
-          <MenuItem>
-            <Typography>Experience (Years)</Typography>
-            <Slider
-              value={filters.experience}
-              onChange={(e, newValue) => handleSliderChange("experience", newValue)}
-              valueLabelDisplay="auto"
-              min={0}
-              max={10}
-            />
-          </MenuItem>
-        </Menu>
+        {/* Filter Dropdown */}
+        <FilterDropdown filters={filters} setFilters={setFilters} />
 
         {/* Avatar */}
         <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
