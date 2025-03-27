@@ -24,6 +24,7 @@ import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined
 const Dashboard = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
+  const [postedProjects, setPostedProjects] = useState([]);
   const [projects, setProjects] = useState([]);
   const [assignedProjects, setAssignedProjects] = useState([]);
   const [error, setError] = useState("");

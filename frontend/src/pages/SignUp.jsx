@@ -6,11 +6,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
+    name: "",
+    headline: "",
     phoneNo: "",
     password: "",
     confirmPassword: "",
@@ -40,6 +43,21 @@ const SignUp = () => {
       return;
     }
 
+    axios.post("http://localhost:3000/api/users/signup", formData)
+      .then((res) => {
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+          navigate("/dashboard");
+        } else {
+          console.log(res);
+          alert(res.data.message);
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("Something went wrong");
+      });
+    
+
     console.log("SignUp Data: ", formData);
   };
 
@@ -59,7 +77,9 @@ const SignUp = () => {
           </h2>
           <form onSubmit={handleSubmit}>
             {[
-              { label: "Username *", name: "username", type: "text", icon: <PersonIcon /> },
+              { label: "Email *", name: "email", type: "text", icon: <PersonIcon /> },
+              { label: "Name *", name: "name", type: "text", icon: <PersonIcon /> },
+              { label: "Headline *", name: "headline", type: "text", icon: <PersonIcon /> },
               { label: "Phone Number *", name: "phoneNo", type: "text", icon: <PhoneIcon /> },
               { label: "Password *", name: "password", type: "password", icon: <LockIcon /> },
               { label: "Confirm Password *", name: "confirmPassword", type: "password", icon: <LockIcon /> },
@@ -67,12 +87,12 @@ const SignUp = () => {
               { label: "Expertise *", name: "expertise", type: "text" },
               { label: "Occupation *", name: "occupation", type: "text" },
               { label: "Country *", name: "country", type: "text" },
-              { label: "Graduation *", name: "graduation", type: "text" },
+              { label: "College *", name: "graduation", type: "text" },
               { label: "LinkedIn URL", name: "linkedinUrl", type: "url" },
               { label: "GitHub URL", name: "githubUrl", type: "url" },
               { label: "Dribble URL", name: "dribbleUrl", type: "url" },
               { label: "Portfolio URL", name: "portfolioUrl", type: "url" },
-              { label: "Profile Picture URL", name: "profilePic", type: "url" },
+              { label: "Profile Picture URL", name: "profilePicUrl", type: "url" },
             ].map(({ label, name, type, icon }) => (
               <div className="mb-4" key={name}>
                 <label className="block text-white mb-2">{icon} {label}</label>

@@ -82,7 +82,7 @@ const Login = () => {
     onClick={() => navigate("/signup")}
     className="text-purple-400 cursor-pointer hover:underline"
   >
-    Sign In
+    Sign Up
   </span>
 </p>
         </div>
