@@ -5,18 +5,32 @@ import person from "../assets/login_man.png";
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login Data: ", formData);
+
+    axios.post("http://localhost:3000/api/users/login", {
+      "email": email,
+      "password": password
+    }).then((res) => {
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/dashboard");
+      } else {
+        console.log(res);
+        alert(res.data.message);
+      }
+    }).catch((err) => {
+      console.log(err);
+      alert("Something went wrong");
+    });
   };
 
   return (
@@ -34,23 +48,23 @@ const Login = () => {
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-white mb-2"><PersonIcon />Username</label>
+              <label className="flex gap-2 text-white mb-2 items-center"><PersonIcon />Email</label>
               <input
                 type="text"
                 name="username"
-                value={formData.username}
-                onChange={handleChange}
+                value={email}
+                onChange={(e)=>{setEmail(e.target.value)}}
                 className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block text-white mb-2"><LockIcon />Password</label>
+              <label className="flex gap-2 items-center text-white mb-2"><LockIcon />Password</label>
               <input
                 type="password"
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e)=>{setPassword(e.target.value)}}
                 className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />

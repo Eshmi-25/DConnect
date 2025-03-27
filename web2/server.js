@@ -6,6 +6,8 @@ const userRoutes = require("./routes/userRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const nftRoutes = require("./routes/nftRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
+const fabricRoutes = require("./routes/fabric");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,12 +17,14 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/nfts", nftRoutes);
 app.use("/api/applications", applicationRoutes);
+// app.use("/fabric", fabricRoutes);
 
 // Basic Route
 app.get("/", (req, res) => {

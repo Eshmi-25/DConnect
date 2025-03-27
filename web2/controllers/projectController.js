@@ -41,6 +41,12 @@ const editProject = async (req, res) => {
 const listUserPostedProjects = async (req, res) => {
     try {
         const projects = await Project.find({ postedBy: req.user.id });
+        for (let project of projects) {
+            if (project.assignedTo) {
+                freelancer = await User.findById(project.assignedTo);
+                project.assignedTo = freelancer.name;
+            }
+        }
         res.json(projects);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -65,7 +71,7 @@ const assignProject = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized" });
         }
 
-        project.assignedTo = req.body.assignedTo;
+        project.freelancerProposed = req.body.assignedTo;
         const updatedProject = await project.save();
         res.json(updatedProject);
     } catch (error) {
@@ -73,4 +79,38 @@ const assignProject = async (req, res) => {
     }
 };
 
-module.exports = { createProject, editProject, listUserPostedProjects, listUserAssignedProjects, assignProject };
+// Accept Project by Freelancer
+const acceptProject = async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id);
+        if (!project || project.freelancerProposed.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        project.assignedTo = req.user.id;
+        project.freelancerAccepted = true;
+        const updatedProject = await project.save();
+        res.json(updatedProject);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const rejectProject = async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id);
+        if (!project || project.freelancerProposed.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        project.assignedTo = null;
+        project.freelancerProposed = null;
+        project.freelancerAccepted = false;
+        const updatedProject = await project.save();
+        res.json(updatedProject);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { createProject, editProject, listUserPostedProjects, listUserAssignedProjects, assignProject, acceptProject, rejectProject };

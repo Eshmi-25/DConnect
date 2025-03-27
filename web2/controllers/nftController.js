@@ -1,5 +1,6 @@
 const NFT = require("../models/NFT");
 const Project = require("../models/Project");
+const User = require("../models/User");
 
 // Add NFT
 const addNFT = async (req, res) => {
@@ -19,6 +20,19 @@ const addNFT = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized" });
         }
         const nft = await NFT.create({ user: userId, type, project });
+        const user = await User.findById(userId);
+        if (type === "freelancer") {
+            user.freelancerNFT = nft;
+            project.deliveryConfirmationFreelancer = true;
+            project.paymentConfirmationProjectOwner = true;
+        } else {
+            user.projectOwnerNFT = nft;
+            project.deliveryConfirmationProjectOwner = true;
+            project.paymentConfirmationFreelancer = true;
+        }
+        project.status = "completed";
+        await project.save();
+        await user.save();
         res.status(201).json(nft);
     } catch (error) {
         res.status(400).json({ message: error.message });
