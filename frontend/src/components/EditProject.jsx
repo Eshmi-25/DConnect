@@ -1,131 +1,90 @@
 import React, { useState, useEffect } from "react";
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from "@mui/material";
 import axios from "axios";
-import { TextField, Button, DialogActions, DialogContent, DialogTitle, Dialog } from "@mui/material";
+import "../styles/model.css";
 
-const EditProject = ({ open, handleClose, project, refreshProjects }) => {
-  const [updatedProject, setUpdatedProject] = useState({
-    name: project?.name || "",
-    description: project?.description || "",
-    keywords: project?.keywords || [],
-    estdDuration: project?.estdDuration || "",
-    budget: project?.budget || 0,
-    questions: project?.questions || [],
-  });
-
-  // Handle changes in the form fields
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedProject((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  // Handle the submission of the form (Update project)
-  const handleSubmit = async () => {
-    const token = localStorage.getItem("token"); // Retrieve the Bearer token
-
-    if (!token) {
-      console.error("No authentication token found");
-      return;
-    }
-
-    try {
-      const response = await axios.put(
-        `/api/projects/edit/${project._id}`,
-        updatedProject,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add Bearer token to the Authorization header
-          },
-        }
-      );
-
-      // Handle the response here (optional)
-      console.log("Project updated successfully:", response.data);
-
-      // Refresh the projects list after the update
-      refreshProjects();
-      handleClose(); // Close the modal after the update
-    } catch (err) {
-      console.error("Error updating project:", err);
-    }
-  };
+const EditProjectModal = ({ open, onClose, project, onSave }) => {
+  const [editedProject, setEditedProject] = useState({ ...project });
 
   useEffect(() => {
     if (project) {
-      setUpdatedProject({
-        name: project.name,
-        description: project.description,
-        keywords: project.keywords,
-        estdDuration: project.estdDuration,
-        budget: project.budget,
-        questions: project.questions,
-      });
+      setEditedProject({ ...project });
     }
   }, [project]);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProject({ ...editedProject, [name]: value });
+  };
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios.put(
+        `http://localhost:3000/api/projects/edit/${editedProject._id}`,
+        editedProject
+      );
+      onSave(response.data); // Update the project in the parent component
+      onClose(); // Close the modal
+    } catch (err) {
+      console.error("Error saving the project:", err);
+    }
+  };
+
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>Edit Project</DialogTitle>
       <DialogContent>
-        <form>
-          <TextField
-            label="Project Name"
-            name="name"
-            value={updatedProject.name}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Description"
-            name="description"
-            value={updatedProject.description}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Estimated Duration"
-            name="estdDuration"
-            value={updatedProject.estdDuration}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Budget"
-            name="budget"
-            type="number"
-            value={updatedProject.budget}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Keywords"
-            name="keywords"
-            value={updatedProject.keywords.join(", ")}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Questions"
-            name="questions"
-            value={updatedProject.questions.join(", ")}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-        </form>
+        <TextField
+          label="Title"
+          name="title"
+          value={editedProject.title || ""}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Description"
+          name="description"
+          value={editedProject.description || ""}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Time Period (in months)"
+          type="number"
+          name="timePeriod"
+          value={editedProject.timePeriod || ""}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Salary"
+          name="salary"
+          value={editedProject.salary || ""}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+          type="number"
+        />
+        <TextField
+          label="NFTs"
+          name="nfts"
+          value={editedProject.nfts || ""}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+          type="number"
+        />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={onClose} color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={handleSave} color="primary">
           Save
         </Button>
       </DialogActions>
@@ -133,4 +92,5 @@ const EditProject = ({ open, handleClose, project, refreshProjects }) => {
   );
 };
 
-export default EditProject;
+export default EditProjectModal;
+
