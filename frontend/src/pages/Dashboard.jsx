@@ -24,12 +24,12 @@ import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined
 const Dashboard = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
-  const [postedProjects, setPostedProjects] = useState([]);
   const [projects, setProjects] = useState([]);
   const [assignedProjects, setAssignedProjects] = useState([]);
   const [error, setError] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [postedProjects, setPostedProjects] = useState([]);
   
   const fetchProjects = async () => {
     try {
@@ -60,7 +60,7 @@ const Dashboard = () => {
     const mode = email === loggedInUserEmail ? "owner" : "view";
     navigate(`/user/${email}?mode=${mode}`);
   };
-/*
+
   useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
@@ -90,7 +90,7 @@ const Dashboard = () => {
 
     fetchProjects();
   }, []);
-*/
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Search Bar */}

@@ -10,17 +10,20 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FilterDropdown from "../components/FilterDropdown";
 
 // Dummy Profiles
-const profiles = Array(12).fill().map((_, index) => ({
+/*const profiles = Array(12).fill().map((_, index) => ({
   id: index + 1,
   name: `User ${index + 1}`,
   nfts: Math.floor(Math.random() * 21),  // Random NFTs between 0-20
   
   experience: Math.floor(Math.random() * 11), // Experience 0-10 years
   description: "Experienced freelancer delivering high-quality services with efficiency and professionalism. Let's work together to bring your project to life!",
-}));
+}));*/
 
 const Explore = () => {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [profiles, setProfiles] = useState([]);
 
   // State for Menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,6 +32,16 @@ const Explore = () => {
     
     experience: [0, 10],
   });
+
+  const handleSearch = async () => {
+    if (!query) return;
+    try {
+      const res = await axios.post("http://localhost:3000/api/users/find-user", { name: query });
+      setResults(res.data);
+    } catch (error) {
+      console.error("Search failed:", error);
+    }
+  };
 
   // Open & Close Menu
   const openMenu = (event) => setAnchorEl(event.currentTarget);
@@ -62,19 +75,13 @@ const Explore = () => {
             type="text"
             placeholder="Look for the right people. Eg: Web developer, Content Writer, etc..."
             className="w-full p-3 pl-4 pr-12 rounded-full bg-gray-800 text-white placeholder-gray-400"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-purple-500 p-2 rounded-full">
+          <button onClick={handleSearch} className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-purple-500 p-4 rounded-full">
             <IoIosSearch />
           </button>
         </div>
-
-        {/* NFT Filter */}
-        <select className="p-2 rounded bg-gray-800 text-white">
-          <option>NFT</option>
-          {[...Array(21)].map((_, i) => (
-            <option key={i} value={i}>{i}</option>
-          ))}
-        </select>
 
         {/* Filter Dropdown */}
         <FilterDropdown filters={filters} setFilters={setFilters} />
@@ -92,23 +99,22 @@ const Explore = () => {
       </div>
 
       {/* Profile Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {filteredProfiles.map((profile, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        {results.map((profile, index) => (
           <div
             key={index}
             className="bg-gradient-to-b from-gray-300 to-blue-500 p-4 rounded-xl cursor-pointer hover:shadow-lg transition"
-            onClick={() => navigate(`/profile`)}     //${profile.id}
+            onClick={() => navigate(`/profile/${profile._id}`)}
           >
             <div className="flex items-center gap-3">
-              <Avatar alt="Profile" src={Image_Avatar} sx={{ width: 40, height: 40 }} />
+              <Avatar alt={profile.name} src={profile.profilePicUrl || "/default-avatar.png"} sx={{ width: 40, height: 40 }} />
               <div>
                 <h2 className="text-lg font-bold text-black">Name: {profile.name}</h2>
-                <p className="text-sm text-black">NFTs: {profile.nfts}</p>
-                
-                <p className="text-sm text-black">Experience: {profile.experience} years</p>
+                <p className="text-sm text-black">Occupation: {profile.occupation}</p>
+                <p className="text-sm text-black">Country: {profile.country}</p>
               </div>
             </div>
-            <p className="text-black mt-2 text-sm">{profile.description}</p>
+            <p className="text-black mt-2 text-sm">{profile.bio}</p>
           </div>
         ))}
       </div>
