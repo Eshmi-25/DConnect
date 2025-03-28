@@ -58,28 +58,39 @@ const CreateProject = () => {
     setLoading(true);
     setMessage("");
 
-    try {
-      const response = await axios.post("http://localhost:3000/api/projects", formData, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true, 
-      });
-
-      setMessage("Project created successfully!");
-      setFormData({
-        name: "",
-        description: "",
-        budget: "",
-        minNFT: "",
-        keywords: "",
-        additionalNotes: "",
-        estdDuration: "",
-        questions: [],
-      });
-    } catch (error) {
-      setMessage("Error creating project. Please try again.");
-    } finally {
+const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("Authentication error: Please log in.");
       setLoading(false);
+      return;
     }
+
+    await axios.post(
+      "http://localhost:3000/api/projects/create",
+      {
+        ...formData,
+        keywords: formData.keywords.split(","),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setMessage("Project created successfully!");
+    setFormData({
+      name: "",
+      description: "",
+      budget: "",
+      minNFT: "",
+      keywords: "",
+      estdDuration: "",
+      questions: [],
+    });
+    navigate("/dashboard");
+    setLoading(false);
   };
 
   return (
@@ -201,19 +212,13 @@ const CreateProject = () => {
             <TextField variant="filled" fullWidth label="Your question" className="bg-gray-400 rounded-2xl" />
           </div>
           <div className="flex justify-end"Cancel><Button size="medium" onClick={handleAddQuestion}>Save</Button>
-          <Button size="medium" onClick={() => setNewQuestion("")}>Cancel</Button></div>
-         {/*} <TextField
-    variant="filled"
-    fullWidth
-    className="bg-gray-400 rounded-2xl"
-    value={newQuestion} 
-    onChange={(e) => setNewQuestion(e.target.value)} 
-  />*/}
+          <Button size="medium" onClick={() => setNewQuestion("")}>cancel</Button></div>
 </div>
            {/* Display Added Questions */}
            {formData.questions.map((q, index) => (
               <div key={index} className="mt-4 flex justify-between items-center bg-gray-700 p-2 rounded">
                 <p className="text-white">{q}</p>
+                <span className="text-white">{q}</span>
                 <Button
                   variant="outlined"
                   startIcon={<DeleteIcon />}
@@ -222,10 +227,13 @@ const CreateProject = () => {
                 >
                   Delete
                 </Button>
+                <TextField value={newQuestion} onChange={(e) => setNewQuestion(e.target.value)} label="New Question" fullWidth />
               </div>
             ))}
-           <p className="text-gray-400 mt-4 text-center">The applications for this project will show up on the applications tab. It is strongly recommended that you connect with the candidate you choose and discuss the specifics via their e-mail address before generating the contract.</p>
-           <button className="mt-4 w-full bg-purple-500 text-white p-2 rounded" onClick={handleSubmit} disabled={loading}><AddCircleOutlineIcon/>Create Project</button>
+           <p className="text-gray-400 mt-4 mb-4 text-center">The applications for this project will show up on the applications tab. It is strongly recommended that you connect with the candidate you choose and discuss the specifics via their e-mail address before generating the contract.</p>
+           <Button className="mt-10 w-full bg-purple-500 text-white p-2 rounded" onClick={handleSubmit} disabled={loading} variant="contained"><AddCircleOutlineIcon/>
+        {loading ? "Creating..." : "Create Project"}
+      </Button>
         </div>
        </div>
       </div> 

@@ -60,7 +60,7 @@ const Dashboard = () => {
     const mode = email === loggedInUserEmail ? "owner" : "view";
     navigate(`/user/${email}?mode=${mode}`);
   };
-
+/*
   useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
@@ -90,7 +90,7 @@ const Dashboard = () => {
 
     fetchProjects();
   }, []);
-
+*/
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Search Bar */}
