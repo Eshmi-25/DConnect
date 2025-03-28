@@ -92,7 +92,7 @@ const SignUp = () => {
               { label: "GitHub URL", name: "githubUrl", type: "url" },
               { label: "Dribble URL", name: "dribbleUrl", type: "url" },
               { label: "Portfolio URL", name: "portfolioUrl", type: "url" },
-              { label: "Profile Picture URL", name: "profilePicUrl", type: "url" },
+              { label: "Profile Picture URL*", name: "profilePicUrl", type: "url" },
             ].map(({ label, name, type, icon }) => (
               <div className="mb-4" key={name}>
                 <label className="block text-white mb-2">{icon} {label}</label>
