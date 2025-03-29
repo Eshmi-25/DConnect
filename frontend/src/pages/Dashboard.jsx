@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EditProject from "../components/EditProject";
+import EditProjectModal from "../components/EditProject";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,7 +24,7 @@ import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined
 const Dashboard = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
-  const [projects, setProjects] = useState([]);
+  const [project, setProjects] = useState([]);
   const [assignedProjects, setAssignedProjects] = useState([]);
   const [error, setError] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -61,6 +61,14 @@ const Dashboard = () => {
     navigate(`/user/${email}?mode=${mode}`);
   };
 
+  const handleSaveProject = (updatedProject) => {
+    setPostedProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project._id === updatedProject._id ? updatedProject : project
+      )
+    );
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
@@ -83,13 +91,33 @@ const Dashboard = () => {
           "http://locahost:3000/api/applications/my-applications"
         );
         setAssignedProjects(assignedRes.data);
+
+        const edit_project = await axios.put(
+          `http://localhost:3000/api/projects/edit/${selectedProject._id}`,
+          selectedProject, // Send the updated project object
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, 
+            }
+          }
+        );
+        // Update the posted projects list with the updated project
+      const updatedPostedProjects = postedProjects.map((project) =>
+        project._id === selectedProject._id ? edit_project.data : project
+      );
+      setPostedProjects(updatedPostedProjects);
+      
+      // Optionally close the modal after updating
+      setOpenEditModal(false);
+      setSelectedProject(null);
+    
       } catch (err) {
         setError("Failed to load projects.");
       }
     };
-
     fetchProjects();
   }, []);
+  
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -361,7 +389,7 @@ const Dashboard = () => {
                 <Button
                   variant="contained"
                   className="bg-purple-500 text-white"
-                  onClick={() => handleEditProject(project)}
+                  onClick={() => handleEditClick(project)}
                 >
                   Edit
                 </Button>
@@ -370,7 +398,15 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+       {/* Edit Project Modal */}
+       <EditProjectModal
+        open={openEditModal}
+        onClose={handleCloseEditModal}
+        project={selectedProject}
+        onSave={handleSaveProject}
+      />
     </div>
+
   );
 };
 

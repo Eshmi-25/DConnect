@@ -33,7 +33,7 @@ const LandingPage = () => {
           <div>
             <TextField
               variant="filled"
-              label="Look for the right people. Eg: Web developer, Content Writer, etc..."
+              placeholder="Look for the right people. Eg: Web developer, Content Writer, etc..."
               size="small"
               sx={{
                 background: "#ffffff",
@@ -54,6 +54,7 @@ const LandingPage = () => {
             />
             <Button
               variant="contained"
+              onClick={() => navigate("/login")}
               sx={{
                 height: "40px",
                 width: "40px",
