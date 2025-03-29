@@ -24,7 +24,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/nfts", nftRoutes);
 app.use("/api/applications", applicationRoutes);
-// app.use("/fabric", fabricRoutes);
+app.use("/api/fabric", fabricRoutes);
 
 // Basic Route
 app.get("/", (req, res) => {
