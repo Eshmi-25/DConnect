@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Project_Banner from "../assets/project_banner.png";
 import SearchIcon from '@mui/icons-material/Search';
 import Logo from "../assets/logo.png";
 import Avatar from '@mui/material/Avatar';
 import image_avatar from "../assets/image.png";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const JobDetails = () => {
+  const { projectId } = useParams(); // Get projectId from URL
+  const token = localStorage.getItem("authToken"); // Get token from localStorage (or use context)
+
+  const [experience, setExperience] = useState("");
+  const [skills, setSkills] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleApply = async (e) => {
+    e.preventDefault();
+    if (!agreed) {
+      setMessage("You must agree to the terms before applying.");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    axios
+      .post(
+        "http://localhost:3000/api/applications/apply",
+        { projectId, answers: [experience, skills] },
+        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
+      )
+      .then(() => setMessage("Application submitted successfully!"))
+      .catch((error) => setMessage(error.response?.data?.message || "Something went wrong."))
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Header with Logo and Search Bar */}
@@ -39,7 +71,11 @@ const JobDetails = () => {
         <div className="w-2/3">
           
           <h1 className="text-3xl font-bold text-purple-400">E-Commerce Website for Fashion Brand</h1>
-          <p className="text-gray-400 text-sm mt-2"><Avatar alt="vincenzo cassano" src={image_avatar} />Posted by: <span className="text-white">Vincenzo Cassano</span></p>
+          <div className="text-gray-400 text-sm mt-2 flex items-center gap-2">
+  <Avatar alt="vincenzo cassano" src={image_avatar} />
+  <span>Posted by: <span className="text-white">Vincenzo Cassano</span></span>
+</div>
+
 
           <h2 className="text-xl font-semibold mt-6 text-purple-400">Description</h2>
           <p className="text-gray-300 text-sm">Lorem ipsum dolor sit amet...</p>
@@ -68,19 +104,19 @@ const JobDetails = () => {
         <div className="w-1/3 bg-gray-800 p-6 rounded-lg border border-blue-500">
         <p className="text-gray-300 text-sm mb-4">Sounds Interesting?</p>
         <h2 className="text-blue-400 text-xl font-bold text-center">Apply Now!</h2>
-          <form className="mt-4">
+          <form onSubmit={handleApply} className="mt-4">
             <label className="text-gray-300 text-sm">Your Name</label>
             <input
               type="text"
               className="w-full p-2 bg-gray-700 rounded mt-1 text-white"
-              placeholder="Your answer..."
+              placeholder="Your name"
             />
 
             <label className="text-gray-300 text-sm mt-3">Your Email</label>
             <input
               type="email"
               className="w-full p-2 bg-gray-700 rounded mt-1 text-white"
-              placeholder="Your answer..."
+              placeholder="Your email"
             />
 
             <label className="text-gray-300 text-sm mt-3">Years of Experience</label>
@@ -89,23 +125,26 @@ const JobDetails = () => {
                 type="number"
                 className="w-1/2 p-2 bg-gray-700 rounded mt-1 text-white"
                 placeholder="Years"
+                value={experience} onChange={(e) => setExperience(e.target.value)}
               />
               <input
                 type="text"
                 className="w-1/2 p-2 bg-gray-700 rounded mt-1 text-white"
                 placeholder="Skills"
+                value={skills} onChange={(e) => setSkills(e.target.value)}
               />
             </div>
 
             <div className="flex items-start gap-2 mt-4">
-              <input type="checkbox" className="mt-1" />
+              <input type="checkbox" className="mt-1" checked={agreed} onChange={() => setAgreed(!agreed)} />
               <p className="text-gray-300 text-sm">
                 You agree that your D-Connect profile and email address will be shared with the client when you submit this application.
               </p>
             </div>
 
-            <button className="mt-4 w-full bg-blue-500 text-white p-2 rounded">Apply</button>
+            <button className="mt-4 w-full bg-blue-500 text-white p-2 rounded" >Apply</button>
           </form>
+          {message && <p>{message}</p>}
         </div>
       </div>
     </div>

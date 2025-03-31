@@ -68,7 +68,7 @@ const Dashboard = () => {
       )
     );
   };
-
+/*
   useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
@@ -118,7 +118,7 @@ const Dashboard = () => {
     fetchProjects();
   }, []);
   
-
+*/
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Search Bar */}
