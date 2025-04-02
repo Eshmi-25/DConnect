@@ -20,7 +20,7 @@ import axios from "axios";
 import client1 from "../assets/client1.png";
 import client2 from "../assets/client2.png";
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
-
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const Dashboard = () => {
       )
     );
   };
-
+/*
   useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
@@ -118,7 +118,7 @@ const Dashboard = () => {
     };
     fetchProjects();
   }, []);
-  
+  */
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -138,6 +138,12 @@ const Dashboard = () => {
             <SearchIcon />
           </button>
         </div>
+        <button
+          className="bg-gray-800 p-2 rounded"
+          onClick={() => navigate("/notification")}
+        >
+          <NotificationsIcon/>
+        </button>
         <button
           className="bg-gray-800 p-2 rounded"
           onClick={() => navigate("/explore")}
