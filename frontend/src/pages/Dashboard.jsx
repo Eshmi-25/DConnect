@@ -71,7 +71,7 @@ const Dashboard = () => {
     );
   };
 
- /* useEffect(() => {
+  useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -119,7 +119,7 @@ const Dashboard = () => {
     };
     fetchProjects();
   }, []);
-*/  
+
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -218,7 +218,7 @@ const Dashboard = () => {
             {/* Total NFTs & Details */}
             <div className="flex justify-between w-full mt-4 text-gray-300">
               <p>
-                Total NFTs: <span className="font-bold">{profile.nfts | "0"}</span>
+                Total NFTs: <span className="font-bold">{profile.nfts | "1"}</span>
               </p>
               <p className="flex items-center gap-1 cursor-pointer">
                 See details <InfoIcon className="text-gray-400 text-sm" />
@@ -254,7 +254,19 @@ const Dashboard = () => {
                     <th className="p-3 text-left">Due Date</th>
                   </tr>
                 </thead>
-                
+                <tbody>
+  <tr className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600">
+    <td className="p-4 rounded-l-xl">NFT-Based Loyalty Program</td>
+    <td className="p-4 text-sm">
+      Developing a smart contract-driven rewards system for e-commerce brands.
+    </td>
+    <td className="p-4 text-sm flex items-center gap-2">
+      <Avatar src={client1} /> Rahul Sharma
+    </td>
+    <td className="p-4 text-sm rounded-r-xl">April 15, 2025</td>
+  </tr>
+</tbody>
+
                 <tbody>
                   {postedProjects.map((job, index) => (
                     console.log(job),
@@ -306,19 +318,21 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="text-gray-300">
-                    <td className="p-3">
-                    NFT-Based Loyalty Program
-                    </td>
-                    <td className="p-3 text-sm">
-                    Seeking a React & Solidity Developer to create a smart contract-driven rewards system for e-commerce brands.
-                    </td>
-                    <td className="p-3 text-sm">
-                      <Avatar src={client2} /> Robert B. Ford
-                    </td>
-                    <td className="p-3 text-sm">21 Feb 2026</td>
-                  </tr>
-                </tbody>
+  <tr className="text-gray-300">
+    <td className="p-3">NFT-Based Loyalty Program</td>
+    <td className="p-3 text-sm">
+      Seeking a React & Solidity Developer to create a smart contract-driven rewards system for e-commerce brands.
+    </td>
+    <td className="p-3 text-sm">
+      <div className="flex items-center gap-2">
+        <Avatar src={client2} />
+        <span>Robert B. Ford</span>
+      </div>
+    </td>
+    <td className="p-3 text-sm">21 Feb 2026</td>
+  </tr>
+</tbody>
+
                 {/*<tbody>
                 {assignedProjects.map((project, index) => (
                   <tr key={index} className="text-gray-300">
