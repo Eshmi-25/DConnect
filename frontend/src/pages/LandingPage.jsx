@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/logo.png";
-import banner from "../assets/landing-banner-img.svg";
+import banner from "../assets/landing-banner-img.png";
 import "../styles/landingpage.css";
 import { TextField, Button } from "@mui/material";
 import { IoIosSearch } from "react-icons/io";
@@ -66,7 +66,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="absolute -z-10">
+      <div className="absolute -z-10 mt-1">
         <img src={banner} alt="" className="w-screen"/>
       </div>
     </div>
