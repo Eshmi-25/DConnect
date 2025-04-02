@@ -5,6 +5,8 @@ import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined
 import User_Avatar from "../assets/image.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { TextField, Button } from "@mui/material";
+
 
 
 const API_BASE_URL = "http://localhost:3000/api";
@@ -13,7 +15,8 @@ const ProjectContractPage = ({ token }) => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
-  const [answers, setAnswers] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState(null);
+  const [paymentDate, setPaymentDate] = useState(null);
   const [message, setMessage] = useState("");
 
   // Fetch user's projects for dropdown
@@ -34,16 +37,21 @@ const ProjectContractPage = ({ token }) => {
 
   // Handle Apply for Project
   const handleApply = async () => {
-    if (!selectedProject) {
-      setMessage("Please select a project.");
+    if (!selectedProject || !deliveryDate || !paymentDate) {
+      setMessage("Please fill in all fields before submitting.");
       return;
     }
 
     try {
-      await applyForProject(token, selectedProject, answers);
-      setMessage("Project application submitted successfully!");
+      console.log("Submitting Project Application with:", {
+        selectedProject,
+        deliveryDate,
+        paymentDate,
+      });
+
+      setMessage("Project contract submitted successfully!");
     } catch (error) {
-      setMessage(error);
+      setMessage("Failed to submit project contract.");
     }
   };
 
@@ -116,25 +124,40 @@ const ProjectContractPage = ({ token }) => {
           ))}
         </select>
 
-         {/* Answer Input */}
-         <label className="block text-white mt-4">Application Details</label>
-        <textarea
+         {/* Agreed Delivery Date */}
+         <label className="block text-white mt-4">Agreed Delivery Date</label>
+         <input
+          type="datetime-local"
+          value={deliveryDate}
+          onChange={(e) => setDeliveryDate(e.target.value)}
           className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
-          placeholder="Enter your application details..."
-          value={answers}
-          onChange={(e) => setAnswers(e.target.value)}
-        ></textarea>
+        />
+
+          {/* Payment Date */}
+          <label className="block text-white mt-4">Payment Date</label>
+        <input
+          type="datetime-local"
+          value={paymentDate}
+          onChange={(e) => setPaymentDate(e.target.value)}
+          className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
+        />
 
 
+        {/* Apply Button */}
         <div className="flex justify-center mt-4">
-  <button className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg font-semibold transition duration-300" onClick={handleApply}>
-    Apply
-  </button>
-</div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleApply}
+              className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg font-semibold transition duration-300"
+            >
+              Apply
+            </Button>
+          </div>
 {/* Success/Error Message */}
 {message && <p className="text-center text-red-400 mt-4">{message}</p>}
       </div>
-    </div>
+    </div> 
   );
 };
 
