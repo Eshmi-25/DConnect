@@ -17,7 +17,8 @@ import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Grid, Typography } from "@mui/material";
+import client1 from "../assets/client1.png";
+import client2 from "../assets/client2.png";
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
 
 
@@ -182,7 +183,7 @@ const Dashboard = () => {
             <h2 className="text-lg font-bold text-whitemt-4">
               {profile.name}
             </h2>
-            <p className="text-gray-400 text-sm">{profile.bio}</p>
+            
             <div className="flex gap-4 mt-4">
               <button className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md">
                 <EditIcon /> Edit Profile
@@ -240,6 +241,7 @@ const Dashboard = () => {
                     <th className="p-3 text-left">Due Date</th>
                   </tr>
                 </thead>
+                
                 <tbody>
                   {postedProjects.map((job, index) => (
                     console.log(job),
@@ -293,13 +295,13 @@ const Dashboard = () => {
                 <tbody>
                   <tr className="text-gray-300">
                     <td className="p-3">
-                      E-Commerce Website for Fashion Brand
+                    NFT-Based Loyalty Program
                     </td>
                     <td className="p-3 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+                    Seeking a React & Solidity Developer to create a smart contract-driven rewards system for e-commerce brands.
                     </td>
                     <td className="p-3 text-sm">
-                      <Avatar src={Image_Avatar} /> Edgar L. Knowles
+                      <Avatar src={client2} /> Robert B. Ford
                     </td>
                     <td className="p-3 text-sm">21 Feb 2026</td>
                   </tr>
@@ -360,24 +362,23 @@ const Dashboard = () => {
 
         {/* Project Listings */}
         <div className="bg-gray-800 p-4 rounded-lg">
-          {[1, 2, 3, 4].map((item) => (
+          
             <div
-              key={item}
+             
               className="bg-gray-900 p-4 rounded-2xl mb-4 flex flex-col md:flex-row justify-between items-center"
             >
               <div className="w-full md:w-1/6 text-gray-300 text-center">
-                Title
+              Decentralized Identity Verification
               </div>
               <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
                 <Avatar src={Image} />
                 <span className="font-semibold">Edgar L. Knowles</span>
               </div>
               <div className="w-full md:w-1/2 text-sm text-gray-400">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ea
-                minus harum est officia rerum qui.
+              Searching for a Cybersecurity Expert to implement KYC solutions using blockchain.
               </div>
               <div className="w-full md:w-1/6 text-gray-300 text-center">
-                3 months
+                93 months
               </div>
               <div className="w-full md:w-1/6 text-gray-300 text-center">
                 INR 80000.00
@@ -395,7 +396,7 @@ const Dashboard = () => {
                 </Button>
               </div>
             </div>
-          ))}
+          
         </div>
       </div>
        {/* Edit Project Modal */}

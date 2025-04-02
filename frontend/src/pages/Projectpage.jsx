@@ -3,9 +3,10 @@ import Project_Banner from "../assets/project_banner.png";
 import SearchIcon from '@mui/icons-material/Search';
 import Logo from "../assets/logo.png";
 import Avatar from '@mui/material/Avatar';
-import image_avatar from "../assets/image.png";
+import image_avatar from "../assets/image1.png";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import User_Avatar from "../assets/image.png";
 
 const JobDetails = () => {
   const { projectId } = useParams(); // Get projectId from URL
@@ -56,7 +57,14 @@ const JobDetails = () => {
           <button className="absolute right-1 top bg-purple-500 p-3 rounded-full">
             <SearchIcon/>
           </button>
+        
         </div>
+        <img
+         src={User_Avatar}
+         alt="User Avatar"
+         className="w-10 h-10 rounded-full cursor-pointer"
+        onClick={() => navigate("/dashboard")}
+                            />
       </div>
 
       {/* Divider Line */}
@@ -73,18 +81,18 @@ const JobDetails = () => {
           <h1 className="text-3xl font-bold text-purple-400">E-Commerce Website for Fashion Brand</h1>
           <div className="text-gray-400 text-sm mt-2 flex items-center gap-2">
   <Avatar alt="vincenzo cassano" src={image_avatar} />
-  <span>Posted by: <span className="text-white">Vincenzo Cassano</span></span>
+  <span>Posted by: <span className="text-white">Ananya Mehra</span></span>
 </div>
 
 
           <h2 className="text-xl font-semibold mt-6 text-purple-400">Description</h2>
-          <p className="text-gray-300 text-sm">Lorem ipsum dolor sit amet...</p>
+          <p className="text-gray-300 text-sm">A sleek and modern e-commerce platform for a high-end fashion brand. The website should feature a user-friendly interface, seamless navigation, and a responsive design to ensure an optimal shopping experience across all devices. Key functionalities include product listings, filtering options, a shopping cart, secure checkout, and user authentication.</p>
 
           <h2 className="text-xl font-semibold mt-4 text-purple-400">Minimum NFTs desired</h2>
-          <p className="text-gray-300 text-sm">4</p>
+          <p className="text-gray-300 text-sm">2</p>
 
           <h2 className="text-xl font-semibold mt-4 text-purple-400">Estimated Duration</h2>
-          <p className="text-gray-300 text-sm">3 weeks</p>
+          <p className="text-gray-300 text-sm">3 months</p>
 
           <h2 className="text-xl font-semibold mt-4 text-purple-400">Required Skills</h2>
           <ul className="list-disc list-inside text-gray-300 text-sm">
@@ -94,9 +102,10 @@ const JobDetails = () => {
 
           <h2 className="text-xl font-semibold mt-4 text-purple-400">Additional Notes from Client</h2>
           <ol className="list-disc list-inside text-gray-300 text-sm">
-            <li>Lorem ipsum dolor sit amet.</li> 
-            <li>vel dolores minus.</li>
-            <li>Ea minus harum est officia rerum qui </li>
+            <li>The website should have a minimalist and elegant design, similar to luxury fashion brands.</li> 
+            <li>Implement smooth animations and transitions to enhance user engagement.</li>
+            <li>Ensure fast loading times and optimized performance for both mobile and desktop users. </li>
+            <li>Include integrations for payment gateways such as Stripe or PayPal.</li>
           </ol>
         </div>
 

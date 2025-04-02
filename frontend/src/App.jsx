@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Contract from "./pages/ProjectContact";
 import Explore from "./pages/Explore";
 import ProfilePage from "./pages/ProfilePage";
+import Notification from "./pages/Notification";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/project" element={<Projectpage/>} />
         <Route path="/projectcreation" element={<ProjectCreationPage/>} />
         <Route path="/projectcontract" element={<Contract/>} />
+        <Route path="/notification" element={<Notification/>} />
       </Routes>
     </Router>
   );

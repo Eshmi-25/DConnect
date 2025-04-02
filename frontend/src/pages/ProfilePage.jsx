@@ -81,18 +81,23 @@ const ProfilePage = () => {
       {/* Profile Section */}
       <div className="flex gap-10">
         {/* Left - Profile Info */}
-        <div className="bg-gray-800 p-6 rounded-lg w-1/4 text-center border border-purple-400 ml-4">
-          <h1 className="text-xl font-bold mt-3">Robert Downey Jr.</h1>
-          <p className="text-s text-gray-400 mt-2 mb-2">Lorem ipsum dolor sit amet. Ea minus harum est officia rerum qui excepturi. Est vitae consequuntur sit corrupti amet et voluptas nemo eos totam culpa. .</p>
-          <p className="text-sm text-gray-400 mb-2">Freelancer | Web Developer</p>
+        <div className="bg-gray-800 p-6 rounded-lg w-2/5  border border-purple-400 ml-4">
+          <h1 className="text-xl font-bold mt-3">Ananya Mehra</h1>
+          <p className="text-s text-gray-400 mt-2 mb-2">Creative and detail-oriented UX/UI designer with 6+ years of experience crafting seamless digital experiences. Passionate about user-centered design, accessibility, and sleek aesthetics. Loves working with startups and e-commerce brands to elevate their online presence.</p>
+          <p className="text-sm text-gray-400 mb-2">Freelancer | UX/UI Designer & Frontend Developer</p>
           <div>
           <p className="text-sm text-gray-400"><WorkOutlineOutlinedIcon />SDE, Google</p>
           <p className="text-sm text-gray-400"><LocationOnOutlinedIcon/>India</p>
-          <p className="text-sm text-gray-400 "><Education/>NIT Rourkela</p> 
+          <p className="text-sm text-gray-400 "><Education/>B.Des in Interaction Design – National Institute of Design (NID), Ahmedabad</p> 
           </div>
           <div>
-          <p className=" text-gray-400 mb-2">Services</p>
-          <p className="text-sm text-gray-400 ">Lorem ipsum dolor sit amet. Ea minus harum est officia rerum qui excepturi. Est vitae consequuntur sit corrupti amet et voluptas nemo eos totam culpa. </p>
+          <p className=" text-gray-400 mb-2">Skills & Work:</p>
+          <p className="text-sm text-gray-400 ">
+UX/UI Design (Figma, Adobe XD) |
+Frontend Development (React, TailwindCSS) |
+Branding & Visual Identity |
+User Research & Prototyping |
+Website Optimization for Conversion</p>
           </div>
           {/* Social Links */}
           <div className="grid grid-cols-2 gap-x-10 gap-y-4 mt-4">
@@ -128,7 +133,7 @@ const ProfilePage = () => {
   <h3 className="text-lg font-semibold text-white mb-6">Project Overview</h3>
   <div className="grid grid-cols-3 gap-4">
     <div className="flex flex-col items-center">
-      <span className="text-2xl font-bold text-red-400">0</span>
+      <span className="text-2xl font-bold text-red-400">1</span>
       <p className="text-xs">Initiated</p>
     </div>
     <div className="flex flex-col items-center">
@@ -163,18 +168,18 @@ const ProfilePage = () => {
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3].map((_, index) => (
-              <tr key={index} className="border-b border-gray-700">
-                <td className="p-2">E-Commerce Website</td>
-                <td className="p-2">Lorem ipsum dolor sit amet...</td>
+            
+              <tr className="border-b border-gray-700">
+                <td className="p-2">E-Commerce Website for Fashion Brand</td>
+                <td className="p-2">A sleek and modern e-commerce platform for a high-end fashion brand. The website should feature a user-friendly interface, seamless navigation, and a responsive design to ensure an optimal shopping experience across all devices. Key functionalities include product listings, filtering options, a shopping cart, secure checkout, and user authentication.</td>
                 <td className="p-2 text-center">3 months</td>
                 <td className="p-2 text-center">2+</td>
-                <td className="p-2 text-center">INR 800000</td>
+                <td className="p-2 text-center">INR 50000</td>
                 <td className="p-2 text-center">
-                  <button className="bg-purple-500 px-3 py-1 rounded text-white" onClick={() => navigate("/projectcontract")}>APPLY <Apply/></button>
+                  <button className="bg-purple-500 px-3 py-1 rounded text-white" onClick={() => navigate("/project")}>APPLY <Apply/></button>
                 </td>
               </tr>
-            ))}
+            
           </tbody>
         </table>
       </div>
