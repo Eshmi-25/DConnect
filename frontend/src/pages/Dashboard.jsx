@@ -413,7 +413,7 @@ const Dashboard = () => {
               <div className="w-full md:w-1/6 text-gray-300 text-center">
                 3 NFT
               </div>
-              <div className="w-full md:w-auto">
+              <div className="flex flex-col gap-2">
                 <Button
                   variant="contained"
                   className="bg-purple-500 text-white"
@@ -421,6 +421,13 @@ const Dashboard = () => {
                 >
                   Edit
                 </Button>
+                <Button
+                   variant="contained"
+                   className="bg-purple-500 text-white"
+                   onClick={() => navigate(`/applications/${project._id}`)}
+               >
+                 View Applications
+                 </Button>
               </div>
             </div>
           

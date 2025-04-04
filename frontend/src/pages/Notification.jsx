@@ -28,8 +28,6 @@ const NotificationPage = ({ token }) => {
         setApplications(formattedApplications);
       } catch (error) {
         console.error("Error fetching applications:", error.response?.data?.message || error.message);
-
-        // Fallback hardcoded data
         setApplications([
           { _id: "1", project: { name: "NFT Marketplace" }, applicantName: "John Doe", status: "Pending" },
           { _id: "2", project: { name: "AI Chatbot" }, applicantName: "Jane Smith", status: "Pending" },
@@ -46,8 +44,6 @@ const NotificationPage = ({ token }) => {
         setVerifications(response.data);
       } catch (error) {
         console.error("Error fetching verifications:", error.response?.data?.message || error.message);
-
-        // Fallback hardcoded verifications
         setVerifications([
           { id: 1, project: "E-commerce Platform", status: "Awaiting Verification" },
           { id: 2, project: "AI Chatbot", status: "Awaiting Verification" },
@@ -61,7 +57,7 @@ const NotificationPage = ({ token }) => {
   }, [token]);
 
   const handleVerify = (id) => {
-    setVerifications(verifications.map(item => 
+    setVerifications(verifications.map(item =>
       item.id === id ? { ...item, status: "Verified" } : item
     ));
   };
@@ -76,9 +72,7 @@ const NotificationPage = ({ token }) => {
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <div>
-          <img src={Logo} alt="Logo" className="w-20 h-20" />
-        </div>
+        <img src={Logo} alt="Logo" className="w-20 h-20" />
         <div className="relative w-2/3">
           <input
             type="text"
@@ -90,26 +84,32 @@ const NotificationPage = ({ token }) => {
           </button>
         </div>
         <div className="flex items-center gap-4">
-          <button className="bg-gray-800 p-2 rounded" onClick={() => navigate("/explore")}> 
+          <button className="bg-gray-800 p-2 rounded" onClick={() => navigate("/explore")}>
             <TravelExploreOutlinedIcon />
           </button>
-          <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}> 
+          <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
             Log Out
           </button>
-          <img src={User_Avatar} alt="User Avatar" className="w-10 h-10 rounded-full cursor-pointer" onClick={() => navigate("/dashboard")} />
+          <img
+            src={User_Avatar}
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full cursor-pointer"
+            onClick={() => navigate("/dashboard")}
+          />
         </div>
       </div>
-      <hr className="border-purple-400 mb-4" />
+      <hr className="border-purple-400 mb-6" />
 
       {/* Applications Section */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-purple-400">Applications</h2>
-        <div className="bg-gray-800 p-6 rounded-lg border border-blue-500 mt-4">
+      <div className="mb-10">
+        <h2 className="text-3xl font-bold text-purple-400 mb-2">Your Applications</h2>
+        <p className="text-gray-400 mb-4">These are the projects you've applied to.</p>
+        <div className="bg-gray-800 p-6 rounded-lg border border-blue-500">
           {applications.length > 0 ? (
             applications.map((app) => (
-              <div key={app._id} className="p-3 bg-gray-700 rounded-lg mb-2 flex justify-between items-center">
+              <div key={app._id} className="p-4 bg-gray-700 rounded-lg mb-3 flex justify-between items-center">
                 <div>
-                  <p className="text-white font-semibold">{app.project.name}</p>
+                  <p className="text-white font-semibold text-lg">{app.project.name}</p>
                   <p className="text-gray-400">Applicant: {app.applicantName}</p>
                   <p className={`text-${app.status === "Accepted" ? "green" : "yellow"}-400`}>Status: {app.status}</p>
                 </div>
@@ -121,20 +121,21 @@ const NotificationPage = ({ token }) => {
               </div>
             ))
           ) : (
-            <p className="text-gray-400">No applications available.</p>
+            <p className="text-gray-400">You haven’t applied to any projects yet.</p>
           )}
         </div>
       </div>
 
       {/* Verification Section */}
       <div>
-        <h2 className="text-2xl font-bold text-purple-400">Verification</h2>
-        <div className="bg-gray-800 p-6 rounded-lg border border-blue-500 mt-4">
+        <h2 className="text-3xl font-bold text-purple-400 mb-2">Payment & Project Verifications</h2>
+        <p className="text-gray-400 mb-4">Confirm payments or project deliveries below.</p>
+        <div className="bg-gray-800 p-6 rounded-lg border border-blue-500">
           {verifications.length > 0 ? (
             verifications.map((verify) => (
-              <div key={verify.id} className="p-3 bg-gray-700 rounded-lg mb-2 flex justify-between items-center">
+              <div key={verify.id} className="p-4 bg-gray-700 rounded-lg mb-3 flex justify-between items-center">
                 <div>
-                  <p className="text-white font-semibold">{verify.project}</p>
+                  <p className="text-white font-semibold text-lg">{verify.project}</p>
                   <p className={`text-${verify.status === "Verified" ? "green" : "yellow"}-400`}>Status: {verify.status}</p>
                 </div>
                 {verify.status !== "Verified" && (
@@ -154,4 +155,3 @@ const NotificationPage = ({ token }) => {
 };
 
 export default NotificationPage;
-

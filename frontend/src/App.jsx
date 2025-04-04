@@ -11,6 +11,7 @@ import Contract from "./pages/ProjectContact";
 import Explore from "./pages/Explore";
 import ProfilePage from "./pages/ProfilePage";
 import Notification from "./pages/Notification";
+import ProjectApplications from "./pages/ProjectApplication";
 
 function App() {
   return (
@@ -31,8 +32,9 @@ function App() {
         <Route path="/profile" element={<ProfilePage/>} />
         <Route path="/project" element={<Projectpage/>} />
         <Route path="/projectcreation" element={<ProjectCreationPage/>} />
-        <Route path="/projectcontract" element={<Contract/>} />
+        <Route path="/projectcontract/:projectId/:userId" element={<Contract/>} />
         <Route path="/notification" element={<Notification/>} />
+        <Route path="/applications/:projectId" element={<ProjectApplications />} />
       </Routes>
     </Router>
   );
