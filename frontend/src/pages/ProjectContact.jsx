@@ -22,7 +22,7 @@ const ProjectContractPage = ({ token }) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/projects/my-projects`, {
+        const response = await axios.get(`${API_BASE_URL}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProjects(response.data);
