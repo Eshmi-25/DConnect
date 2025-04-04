@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import Logo from "../assets/logo.png";
-import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
+import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
 import User_Avatar from "../assets/image.png";
-import { useNavigate } from "react-router-dom";
+import Logo from "../assets/logo.png";
 import axios from "axios";
 import { TextField, Button } from "@mui/material";
-
-
 
 const API_BASE_URL = "http://localhost:3000/api";
 
 const ProjectContractPage = ({ token }) => {
+  const { projectId, userId } = useParams(); // Extract from URL
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState("");
+  const [selectedProject, setSelectedProject] = useState(projectId || ""); // Default to URL param if available
   const [deliveryDate, setDeliveryDate] = useState(null);
   const [paymentDate, setPaymentDate] = useState(null);
   const [message, setMessage] = useState("");
@@ -45,6 +44,7 @@ const ProjectContractPage = ({ token }) => {
     try {
       console.log("Submitting Project Application with:", {
         selectedProject,
+        userId,
         deliveryDate,
         paymentDate,
       });
@@ -54,7 +54,6 @@ const ProjectContractPage = ({ token }) => {
       setMessage("Failed to submit project contract.");
     }
   };
-
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -75,20 +74,21 @@ const ProjectContractPage = ({ token }) => {
         </div>
         <div className="flex items-center gap-4">
           <button className="bg-gray-800 p-2 rounded" onClick={() => navigate("/explore")}>
-            <TravelExploreOutlinedIcon/>
+            <TravelExploreOutlinedIcon />
           </button>
           <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
             Log Out
           </button>
           <img
-                    src={User_Avatar}
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full cursor-pointer"
-                    onClick={() => navigate("/dashboard")}
-                  />
+            src={User_Avatar}
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full cursor-pointer"
+            onClick={() => navigate("/dashboard")}
+          />
         </div>
       </div>
       <hr className="border-purple-400 mb-4" />
+
       {/* Header Section */}
       <div className="text-left mb-6">
         <p className="text-gray-400">Found the right project?</p>
@@ -107,11 +107,9 @@ const ProjectContractPage = ({ token }) => {
 
       {/* Contract Form */}
       <div className="bg-gray-800 p-6 rounded-lg border border-blue-500 max-w-3xl mx-auto">
-        <label className="block text-white mb-2">Select Your Project</label>
-       {/*} <select className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500">
-          <option>Drop down of user’s projects</option>
-        </select>*/}
-        <select
+        {/* Project Selection */}
+        <label className="block text-white mb-2"> Your Project</label>
+        {/*<select
           className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
           value={selectedProject}
           onChange={(e) => setSelectedProject(e.target.value)}
@@ -122,19 +120,25 @@ const ProjectContractPage = ({ token }) => {
               {project.name}
             </option>
           ))}
-        </select>
+        </select>*/}
 
-         {/* Agreed Delivery Date */}
-         <label className="block text-white mt-4">Agreed Delivery Date</label>
-         <input
+        {/* Display Project ID and User ID */}
+        <div className="mt-4 p-4 bg-gray-700 rounded-lg">
+          <p className="text-gray-300"><span className="font-bold text-purple-300">Project ID:</span> {selectedProject || "Not selected"}</p>
+          <p className="text-gray-300"><span className="font-bold text-purple-300">User ID:</span> {userId || "Not available"}</p>
+        </div>
+
+        {/* Agreed Delivery Date */}
+        <label className="block text-white mt-4">Agreed Delivery Date</label>
+        <input
           type="datetime-local"
           value={deliveryDate}
           onChange={(e) => setDeliveryDate(e.target.value)}
           className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
         />
 
-          {/* Payment Date */}
-          <label className="block text-white mt-4">Payment Date</label>
+        {/* Payment Date */}
+        <label className="block text-white mt-4">Payment Date</label>
         <input
           type="datetime-local"
           value={paymentDate}
@@ -142,22 +146,22 @@ const ProjectContractPage = ({ token }) => {
           className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
         />
 
-
         {/* Apply Button */}
         <div className="flex justify-center mt-4">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleApply}
-              className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg font-semibold transition duration-300"
-            >
-              Apply
-            </Button>
-          </div>
-{/* Success/Error Message */}
-{message && <p className="text-center text-red-400 mt-4">{message}</p>}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleApply}
+            className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg font-semibold transition duration-300"
+          >
+            Apply
+          </Button>
+        </div>
+
+        {/* Success/Error Message */}
+        {message && <p className="text-center text-red-400 mt-4">{message}</p>}
       </div>
-    </div> 
+    </div>
   );
 };
 
