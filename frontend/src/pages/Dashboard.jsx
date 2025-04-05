@@ -19,20 +19,20 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import client1 from "../assets/client1.png";
 import client2 from "../assets/client2.png";
-import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-
+import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
   const [project, setProjects] = useState([]);
+  const [openProjects, setOpenProjects] = useState([]);
   const [assignedProjects, setAssignedProjects] = useState([]);
   const [error, setError] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [postedProjects, setPostedProjects] = useState([]);
-  
+
   const fetchProjects = async () => {
     try {
       const response = await axios.get("/api/projects");
@@ -90,36 +90,49 @@ const Dashboard = () => {
         setPostedProjects(postedRes.data);
 
         const assignedRes = await axios.get(
-          "http://locahost:3000/api/applications/my-applications"
+          "http://localhost:3000/api/projects/assigned",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setAssignedProjects(assignedRes.data);
+
+        const openProjects = await axios.get(
+          "http://localhost:3000/api/projects/list-open-projects",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setOpenProjects(openProjects.data);
 
         const edit_project = await axios.put(
           `http://localhost:3000/api/projects/edit/${selectedProject._id}`,
           selectedProject, // Send the updated project object
           {
             headers: {
-              Authorization: `Bearer ${token}`, 
-            }
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         // Update the posted projects list with the updated project
-      const updatedPostedProjects = postedProjects.map((project) =>
-        project._id === selectedProject._id ? edit_project.data : project
-      );
-      setPostedProjects(updatedPostedProjects);
-      
-      // Optionally close the modal after updating
-      setOpenEditModal(false);
-      setSelectedProject(null);
-    
+        const updatedPostedProjects = postedProjects.map((project) =>
+          project._id === selectedProject._id ? edit_project.data : project
+        );
+        setPostedProjects(updatedPostedProjects);
+
+        // Optionally close the modal after updating
+        setOpenEditModal(false);
+        setSelectedProject(null);
       } catch (err) {
         setError("Failed to load projects.");
       }
     };
     fetchProjects();
   }, []);
-
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
@@ -143,9 +156,9 @@ const Dashboard = () => {
           className="bg-gray-800 p-2 rounded"
           onClick={() => navigate("/notification")}
         >
-          <NotificationsIcon/>
+          <NotificationsIcon />
         </button>
-       
+
         <button
           className="bg-gray-800 p-2 rounded"
           onClick={() => navigate("/explore")}
@@ -188,10 +201,8 @@ const Dashboard = () => {
               src={Image_Avatar}
               sx={{ width: 106, height: 106 }}
             />
-            <h2 className="text-lg font-bold text-whitemt-4">
-              {profile.name}
-            </h2>
-            
+            <h2 className="text-lg font-bold text-whitemt-4">{profile.name}</h2>
+
             <div className="flex gap-4 mt-4">
               <button className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md">
                 <EditIcon /> Edit Profile
@@ -207,13 +218,20 @@ const Dashboard = () => {
             {/* Expertise */}
             <div className="flex gap-2 mt-4">
               {profile.expertise?.map((expertise, index) => (
-                <span className="bg-gray-700 px-3 py-1 rounded text-gray-300 text-sm" key={index}>{expertise}</span>))}
+                <span
+                  className="bg-gray-700 px-3 py-1 rounded text-gray-300 text-sm"
+                  key={index}
+                >
+                  {expertise}
+                </span>
+              ))}
             </div>
 
             {/* Total NFTs & Details */}
             <div className="flex justify-between w-full mt-4 text-gray-300">
               <p>
-                Total NFTs: <span className="font-bold">{profile.nfts | "1"}</span>
+                Total NFTs:{" "}
+                <span className="font-bold">{profile.nfts | "1"}</span>
               </p>
               <p className="flex items-center gap-1 cursor-pointer">
                 See details <InfoIcon className="text-gray-400 text-sm" />
@@ -237,7 +255,7 @@ const Dashboard = () => {
           <div className="bg-gray-800 p-6 rounded-2xl border border-purple-500">
             {/* Hiring For Section */}
             <h3 className="text-lg font-semibold mb-2 text-white">
-              Hiring For
+              Open Projects
             </h3>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-gray-700 rounded-lg">
@@ -245,56 +263,58 @@ const Dashboard = () => {
                   <tr className="text-gray-400 border-b border-gray-600">
                     <th className="p-3 text-left">Title</th>
                     <th className="p-3 text-left">Description</th>
-                    <th className="p-3 text-left">Assigned to</th>
-                    <th className="p-3 text-left">Due Date</th>
+                    <th className="p-3 text-left">Posted By</th>
+                    <th className="p-3 text-left">Estd. Duration</th>
+                    <th className="p-3 text-left">Apply</th>
                   </tr>
                 </thead>
-                <tbody>
-  <tr className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600">
-    <td className="p-4 rounded-l-xl">NFT-Based Loyalty Program</td>
-    <td className="p-4 text-sm">
-      Developing a smart contract-driven rewards system for e-commerce brands.
-    </td>
-    <td className="p-4 text-sm flex items-center gap-2">
-      <Avatar src={client1} /> Rahul Sharma
-    </td>
-    <td className="p-4 text-sm rounded-r-xl">April 15, 2025</td>
-  </tr>
-</tbody>
+                {/* <tbody>
+                  <tr className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600">
+                    <td className="p-4 rounded-l-xl">
+                      NFT-Based Loyalty Program
+                    </td>
+                    <td className="p-4 text-sm">
+                      Developing a smart contract-driven rewards system for
+                      e-commerce brands.
+                    </td>
+                    <td className="p-4 text-sm flex items-center gap-2">
+                      <Avatar src={client1} /> Rahul Sharma
+                    </td>
+                    <td className="p-4 text-sm rounded-r-xl">April 15, 2025</td>
+                  </tr>
+                </tbody> */}
 
                 <tbody>
-                  {postedProjects.map((job, index) => (
-                    console.log(job),
-                    <tr
-                      key={index}
-                      className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600"
-                    >
-                      <td className="p-4 rounded-l-xl">{job.name}</td>
-                      <td className="p-4 text-sm">{job.description}</td>
-                      <td className="p-4 text-sm flex items-center gap-2">
-                        <Avatar src={job.avatar} /> {job.assignedTo}
-                      </td>
-                      <td className="p-4 text-sm rounded-r-xl">
-                        {job.dueDate}
-                      </td>
-                    </tr>
-                  ))}
+                  {openProjects.map(
+                    (job, index) => (
+                      console.log(job),
+                      (
+                        <tr
+                          key={index}
+                          className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600"
+                        >
+                          <td className="p-4 rounded-l-xl">{job.name}</td>
+                          <td className="p-4 text-sm">{job.description}</td>
+                          <td className="p-4 text-sm flex items-center gap-2">
+                            <Avatar src={job.avatar} /> {job.postedBy}
+                          </td>
+                          <td className="p-4 text-sm">{job.estdDuration}</td>
+                          <td className="p-4 text-sm rounded-r-xl">
+                            <Button
+                              variant="contained"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/applications/${job._id}`);
+                              }}
+                            >
+                              Apply
+                            </Button>
+                          </td>
+                        </tr>
+                      )
+                    )
+                  )}
                 </tbody>
-                {/*<tbody>
-                {postedProjects.map((project, index) => (
-                  <tr key={index} className="text-gray-300 bg-gray-800 rounded-xl border border-gray-600">
-                    <td className="p-4 rounded-l-xl">{project.title}</td>
-                    <td className="p-4 text-sm">{project.description}</td>
-                    <td
-                      className="p-4 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
-                      onClick={() => handleViewProfile(project.assignedToEmail)}
-                    >
-                      <Avatar src={project.assignedToAvatar} /> {project.assignedTo}
-                    </td>
-                    <td className="p-4 text-sm rounded-r-xl">{project.dueDate}</td>
-                  </tr>
-                ))}
-              </tbody>*/}
               </table>
             </div>
 
@@ -313,36 +333,34 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-  <tr className="text-gray-300">
-    <td className="p-3">NFT-Based Loyalty Program</td>
-    <td className="p-3 text-sm">
-      Seeking a React & Solidity Developer to create a smart contract-driven rewards system for e-commerce brands.
-    </td>
-    <td className="p-3 text-sm">
-      <div className="flex items-center gap-2">
-        <Avatar src={client2} />
-        <span>Robert B. Ford</span>
-      </div>
-    </td>
-    <td className="p-3 text-sm">21 Feb 2026</td>
-  </tr>
-</tbody>
-
-                {/*<tbody>
-                {assignedProjects.map((project, index) => (
-                  <tr key={index} className="text-gray-300">
-                    <td className="p-3">{project.title}</td>
-                    <td className="p-3 text-sm">{project.description}</td>
-                    <td
-                      className="p-3 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
-                      onClick={() => handleViewProfile(project.clientEmail)}
-                    >
-                      <Avatar src={project.clientAvatar} /> {project.clientName}
+                  {/* <tr className="text-gray-300">
+                    <td className="p-3">NFT-Based Loyalty Program</td>
+                    <td className="p-3 text-sm">
+                      Seeking a React & Solidity Developer to create a smart
+                      contract-driven rewards system for e-commerce brands.
                     </td>
-                    <td className="p-3 text-sm">{project.dueDate}</td>
-                  </tr>
-                ))}
-              </tbody>*/}
+                    <td className="p-3 text-sm">
+                      <div className="flex items-center gap-2">
+                        <Avatar src={client2} />
+                        <span>Robert B. Ford</span>
+                      </div>
+                    </td>
+                    <td className="p-3 text-sm">21 Feb 2026</td>
+                  </tr> */}
+                  {assignedProjects.map((project, index) => (
+                    <tr key={index} className="text-gray-300">
+                      <td className="p-3">{project.name}</td>
+                      <td className="p-3 text-sm">{project.description}</td>
+                      <td
+                        className="p-3 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
+                        onClick={() => handleViewProfile(project.clientEmail)}
+                      >
+                        <Avatar src={project.clientAvatar} /> {project.postedBy}
+                      </td>
+                      <td className="p-3 text-sm">{project.agreedDueDate}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
           </div>
@@ -384,59 +402,94 @@ const Dashboard = () => {
 
         {/* Project Listings */}
         <div className="bg-gray-800 p-4 rounded-lg">
-          
-            <div
-             
-              className="bg-gray-900 p-4 rounded-2xl mb-4 flex flex-col md:flex-row justify-between items-center"
-            >
-              <div className="w-full md:w-1/6 text-gray-300 text-center">
+          <div className="bg-gray-900 p-4 rounded-2xl mb-4 flex flex-col gap-5 justify-between items-center">
+            {postedProjects.map((project, index) => (
+              <div
+                key={index}
+                className="flex flex-col md:flex-row items-center justify-between w-full gap-4 mb-4 md:mb-0"
+              >
+                <div className="w-full md:w-1/6 text-gray-300 text-center">
+                  {project.name}
+                </div>
+                <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
+                  <Avatar src={Image} />
+                  <span className="font-semibold">{project.postedBy}</span>
+                </div>
+                <div className="w-full md:w-1/2 text-sm text-gray-400">
+                  {project.description}
+                </div>
+                <div className="w-full md:w-1/6 text-gray-300 text-center">
+                  {project.estdDuration}
+                </div>
+                <div className="w-full md:w-1/6 text-gray-300 text-center">
+                  {project.budget}
+                </div>
+                <div className="w-full md:w-1/6 text-gray-300 text-center">
+                  {project.minNFT}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    variant="contained"
+                    className="bg-purple-500 text-white"
+                    onClick={() => handleEditClick(project)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    className="bg-purple-500 text-white"
+                    onClick={() => navigate(`/applications/${project._id}`)}
+                  >
+                    View Applications
+                  </Button>
+                </div>
+                <EditProjectModal
+                  open={openEditModal}
+                  onClose={handleCloseEditModal}
+                  project={selectedProject}
+                  onSave={handleSaveProject}
+                />
+              </div>
+            ))}
+            {/* <div className="w-full md:w-1/6 text-gray-300 text-center">
               Decentralized Identity Verification
-              </div>
-              <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
-                <Avatar src={Image} />
-                <span className="font-semibold">Edgar L. Knowles</span>
-              </div>
-              <div className="w-full md:w-1/2 text-sm text-gray-400">
-              Searching for a Cybersecurity Expert to implement KYC solutions using blockchain.
-              </div>
-              <div className="w-full md:w-1/6 text-gray-300 text-center">
-                93 months
-              </div>
-              <div className="w-full md:w-1/6 text-gray-300 text-center">
-                INR 80000.00
-              </div>
-              <div className="w-full md:w-1/6 text-gray-300 text-center">
-                3 NFT
-              </div>
-              <div className="flex flex-col gap-2">
-                <Button
-                  variant="contained"
-                  className="bg-purple-500 text-white"
-                  onClick={() => handleEditClick(project)}
-                >
-                  Edit
-                </Button>
-                <Button
-                   variant="contained"
-                   className="bg-purple-500 text-white"
-                   onClick={() => navigate(`/applications/${project._id}`)}
-               >
-                 View Applications
-                 </Button>
-              </div>
             </div>
-          
+            <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
+              <Avatar src={Image} />
+              <span className="font-semibold">Edgar L. Knowles</span>
+            </div>
+            <div className="w-full md:w-1/2 text-sm text-gray-400">
+              Searching for a Cybersecurity Expert to implement KYC solutions
+              using blockchain.
+            </div>
+            <div className="w-full md:w-1/6 text-gray-300 text-center">
+              93 months
+            </div>
+            <div className="w-full md:w-1/6 text-gray-300 text-center">
+              INR 80000.00
+            </div>
+            <div className="w-full md:w-1/6 text-gray-300 text-center">
+              3 NFT
+            </div>
+            <div className="flex flex-col gap-2">
+              <Button
+                variant="contained"
+                className="bg-purple-500 text-white"
+                onClick={() => handleEditClick(project)}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                className="bg-purple-500 text-white"
+                onClick={() => navigate(`/applications/${project._id}`)}
+              >
+                View Applications
+              </Button> */}
+          </div>
         </div>
       </div>
-       {/* Edit Project Modal */}
-       <EditProjectModal
-        open={openEditModal}
-        onClose={handleCloseEditModal}
-        project={selectedProject}
-        onSave={handleSaveProject}
-      />
     </div>
-
   );
 };
 

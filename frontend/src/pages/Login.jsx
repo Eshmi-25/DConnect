@@ -24,12 +24,10 @@ const Login = () => {
         localStorage.setItem("token", res.data.token);
         navigate("/dashboard");
       } else {
-        console.log(res);
         alert(res.data.message);
       }
     }).catch((err) => {
-      console.log(err);
-      alert("Something went wrong");
+      alert(err.response.data.message);
     });
   };
 

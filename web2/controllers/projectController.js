@@ -1,4 +1,5 @@
 const Project = require("../models/Project");
+const User = require("../models/User");
 
 // Create Project
 const createProject = async (req, res) => {
@@ -41,13 +42,13 @@ const editProject = async (req, res) => {
 const listUserPostedProjects = async (req, res) => {
     try {
         const projects = await Project.find({ postedBy: req.user.id });
-        for (let project of projects) {
-            if (project.assignedTo) {
-                freelancer = await User.findById(project.assignedTo);
-                project.assignedTo = freelancer.name;
-            }
-        }
-        res.json(projects);
+        const result = await Promise.all(projects.map(async (project) => {
+            const user = await User.findById(project.postedBy);
+            const projObj = project.toObject();
+            projObj.postedBy = user?.name || "Unknown";
+            return projObj;
+        }));
+        res.json(result);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -96,6 +97,7 @@ const acceptProject = async (req, res) => {
     }
 };
 
+// Reject Project by Freelancer
 const rejectProject = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id);
@@ -113,4 +115,70 @@ const rejectProject = async (req, res) => {
     }
 };
 
-module.exports = { createProject, editProject, listUserPostedProjects, listUserAssignedProjects, assignProject, acceptProject, rejectProject };
+// Sending list of projects with verification or acceptance status
+const listProjectsWithStatus = async (req, res) => {
+    try {
+        let projects = await Project.find({ postedBy: req.user.id });
+        projects = projects.filter(project => project.status === "open" || project.status === "in-progress");
+        for (let project of projects) {
+            if (project.assignedTo) {
+                const freelancer = await User.findById(project.assignedTo);
+                project.assignedTo = freelancer.name;
+            }
+            if (project.freelancerAccepted) {
+                project.status = "Accepted";
+            } else if (project.freelancerProposed) {
+                project.status = "Proposed";
+            } else {
+                project.status = "Pending";
+            }
+        }
+        res.json(projects);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+function checkPaymentVerifed(project) {
+    return !project.paymentConfirmationFreelancer;
+}
+function checkDeliveryVerified(project) {
+    return !project.deliveryConfirmationFreelancer;
+}
+
+// Sending list of projects with verification or acceptance status
+const listProjectsToVerify = async (req, res) => {
+    try {
+        let projects = await Project.find({ assignedTo: req.user.id });
+        projects = projects.filter(checkPaymentVerifed);
+        projects = projects.filter(checkDeliveryVerified);
+        res.json(projects);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// list all open projects
+const listOpenProjects = async (req, res) => {
+    try {
+        const projects = await Project.find({
+            status: "open",
+            freelancerProposed: null,
+            postedBy: { $ne: req.user.id }
+        });
+
+        const result = await Promise.all(projects.map(async (project) => {
+            const user = await User.findById(project.postedBy);
+            const projObj = project.toObject(); // convert from Mongoose document to plain JS object
+            projObj.postedBy = user?.name || "Unknown";
+            return projObj;
+        }));
+
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+
+module.exports = { createProject, editProject, listUserPostedProjects, listUserAssignedProjects, assignProject, acceptProject, rejectProject, listProjectsWithStatus, listProjectsToVerify, listOpenProjects };

@@ -7,6 +7,9 @@ const {
     listUserAssignedProjects,
     assignProject,
     acceptProject,
+    listProjectsToVerify,
+    listProjectsWithStatus,
+    listOpenProjects,
 } = require("../controllers/projectController");
 
 const router = express.Router();
@@ -17,5 +20,8 @@ router.get("/posted", protect, listUserPostedProjects);
 router.get("/assigned", protect, listUserAssignedProjects);
 router.put("/:id/assign", protect, assignProject);
 router.put("/:id/accept", protect, acceptProject);
+router.get("/projects-for-verification", protect, listProjectsToVerify);
+router.get("/my-projects-status", protect, listProjectsWithStatus);
+router.get("/list-open-projects", protect, listOpenProjects);
 
 module.exports = router;

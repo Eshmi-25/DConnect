@@ -8,18 +8,25 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000/api";
 
-const NotificationPage = ({ token }) => {
+const NotificationPage = () => {
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [verifications, setVerifications] = useState([]);
+  const [openProjects, setOpenProjects] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
+        if (!token) {
+          navigate("/login");
+          return;
+        }
         const response = await axios.get(`${API_BASE_URL}/applications/my-applications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
+        
+        console.log(response.data);
         const formattedApplications = response.data.map(app => ({
           ...app,
           applicantName: app.user?.name || "Unknown Applicant",
@@ -28,32 +35,49 @@ const NotificationPage = ({ token }) => {
         setApplications(formattedApplications);
       } catch (error) {
         console.error("Error fetching applications:", error.response?.data?.message || error.message);
-        setApplications([
-          { _id: "1", project: { name: "NFT Marketplace" }, applicantName: "John Doe", status: "Pending" },
-          { _id: "2", project: { name: "AI Chatbot" }, applicantName: "Jane Smith", status: "Pending" },
-          { _id: "3", project: { name: "E-commerce Platform" }, applicantName: "Arya Sinha", status: "Pending" }
-        ]);
+        // setApplications([
+        //   { _id: "1", project: { name: "NFT Marketplace" }, applicantName: "John Doe", status: "Pending" },
+        //   { _id: "2", project: { name: "AI Chatbot" }, applicantName: "Jane Smith", status: "Pending" },
+        //   { _id: "3", project: { name: "E-commerce Platform" }, applicantName: "Arya Sinha", status: "Pending" }
+        // ]);
       }
     };
 
     const fetchVerifications = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/verifications/my-verifications`, {
+        const response = await axios.get(`${API_BASE_URL}/projects/projects-for-verification`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setVerifications(response.data);
       } catch (error) {
         console.error("Error fetching verifications:", error.response?.data?.message || error.message);
-        setVerifications([
-          { id: 1, project: "E-commerce Platform", status: "Awaiting Verification" },
-          { id: 2, project: "AI Chatbot", status: "Awaiting Verification" },
-          { id: 3, project: "Blockchain Voting System", status: "Verified" }
-        ]);
+        // setVerifications([
+        //   { id: 1, project: "E-commerce Platform", status: "Awaiting Verification" },
+        //   { id: 2, project: "AI Chatbot", status: "Awaiting Verification" },
+        //   { id: 3, project: "Blockchain Voting System", status: "Verified" }
+        // ]);
+      }
+    };
+
+    const fetchOpenProjects = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/projects/my-projects-status`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setOpenProjects(response.data);
+      } catch (error) {
+        console.error("Error fetching verifications:", error.response?.data?.message || error.message);
+        // setOpenProjects ([
+        //   { id: 1, project: "E-commerce Platform", status: "Awaiting Verification" },
+        //   { id: 2, project: "AI Chatbot", status: "Awaiting Verification" },
+        //   { id: 3, project: "Blockchain Voting System", status: "Verified" }
+        // ]);
       }
     };
 
     fetchApplications();
     fetchVerifications();
+    fetchOpenProjects();
   }, [token]);
 
   const handleVerify = (id) => {
