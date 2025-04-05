@@ -10,6 +10,7 @@ const {
     listProjectsToVerify,
     listProjectsWithStatus,
     listOpenProjects,
+    fetchProjectDetails,
 } = require("../controllers/projectController");
 
 const router = express.Router();
@@ -23,5 +24,6 @@ router.put("/:id/accept", protect, acceptProject);
 router.get("/projects-for-verification", protect, listProjectsToVerify);
 router.get("/my-projects-status", protect, listProjectsWithStatus);
 router.get("/list-open-projects", protect, listOpenProjects);
+router.get("/fetch-project/:id", protect, fetchProjectDetails); 
 
 module.exports = router;

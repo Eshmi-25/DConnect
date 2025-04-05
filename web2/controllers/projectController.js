@@ -180,5 +180,18 @@ const listOpenProjects = async (req, res) => {
     }
 };
 
+// Fetch project details by ID
+const fetchProjectDetails = async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id).populate("postedBy", "name email").populate("assignedTo", "name email");
+        if (!project) {
+            return res.status(404).json({ message: "Project not found" });
+        }
+        res.json(project);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
 
-module.exports = { createProject, editProject, listUserPostedProjects, listUserAssignedProjects, assignProject, acceptProject, rejectProject, listProjectsWithStatus, listProjectsToVerify, listOpenProjects };
+
+module.exports = { createProject, editProject, listUserPostedProjects, listUserAssignedProjects, assignProject, acceptProject, rejectProject, listProjectsWithStatus, listProjectsToVerify, listOpenProjects, fetchProjectDetails };

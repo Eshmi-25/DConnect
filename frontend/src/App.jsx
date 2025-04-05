@@ -30,7 +30,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/explore" element={<Explore/>} />
         <Route path="/profile" element={<ProfilePage/>} />
-        <Route path="/project" element={<Projectpage/>} />
+        <Route path="/project-apply/:projectId" element={<Projectpage/>} />
         <Route path="/projectcreation" element={<ProjectCreationPage/>} />
         <Route path="/projectcontract/:projectId/:userId" element={<Contract/>} />
         <Route path="/notification" element={<Notification/>} />

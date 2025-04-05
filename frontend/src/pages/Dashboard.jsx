@@ -304,7 +304,7 @@ const Dashboard = () => {
                               variant="contained"
                               onClick={(e) => {
                                 e.preventDefault();
-                                navigate(`/applications/${job._id}`);
+                                navigate(`/project-apply/${job._id}`);
                               }}
                             >
                               Apply
