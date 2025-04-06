@@ -131,6 +131,33 @@ const NotificationPage = () => {
       });
   };
 
+  const handlePayment = async (verify) => {
+    await axios
+    .post (
+      `${API_BASE_URL}/nfts/add-nft`,
+      {
+        projectId: verify._id,
+        type: verify.postedBy? "freelancer": "project owner",
+        userId: verify.postedBy? verify.assignedTo: verify.postedByUser,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    ).then((response) => {
+      alert("NFT created successfully!");
+      console.log("NFT created successfully:", response.data);
+    }).catch((error) => {
+      alert(
+        "Error creating NFT:",
+        error.response?.data?.message || error.message
+      );
+      console.error(
+        "Error creating NFT:",
+        error.response?.data?.message || error.message
+      );
+    });
+  };
+
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
       {/* Header */}
@@ -263,7 +290,10 @@ const NotificationPage = () => {
                 ) : (
                   <div className="flex flex-col gap-2">
                     {!verify.payment && verify.assignedTo ? (
-                      <Button variant="contained">Verify Payment</Button>
+                      <Button variant="contained" onClick={(e)=>{
+                        e.preventDefault();
+                        handlePayment(verify);
+                      }}>Verify Payment</Button>
                     ) : null}
 
                     {!verify.delivery && verify.assignedTo ? (

@@ -181,6 +181,7 @@ const listProjectsToVerify = async (req, res) => {
         return {
             _id: project._id,
             name: project.name,
+            postedByUser: project.postedBy,
             assignedTo: project.assignedTo || "",
             proposed,
             paymentConfirmation,
