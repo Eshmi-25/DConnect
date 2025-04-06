@@ -29,7 +29,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/explore" element={<Explore/>} />
-        <Route path="/profile" element={<ProfilePage/>} />
+        <Route path="/profile/:userId" element={<ProfilePage/>} />
         <Route path="/project-apply/:projectId" element={<Projectpage/>} />
         <Route path="/projectcreation" element={<ProjectCreationPage/>} />
         <Route path="/projectcontract/:projectId/:userId" element={<Contract/>} />

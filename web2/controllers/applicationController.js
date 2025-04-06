@@ -1,5 +1,6 @@
 const Application = require("../models/Application");
 const Project = require("../models/Project");
+const User = require("../models/User");
 
 // Apply for a Project
 const applyForProject = async (req, res) => {
@@ -29,7 +30,19 @@ const viewProjectApplications = async (req, res) => {
         }
 
         const applications = await Application.find({ project: req.params.projectId }).populate("user", "name email");
-        res.json(applications);
+        const results = [];
+        for (let application of applications) {
+            const appObj = application.toObject(); // convert Mongoose doc to plain object
+            const project = await Project.findById(appObj.project);
+            if (project) {
+                appObj.questions = project.questions;
+            } else {
+                appObj.questions = [];
+
+            }
+            results.push(appObj);
+        }
+        res.json(results);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -38,11 +51,42 @@ const viewProjectApplications = async (req, res) => {
 // View Applications by User
 const viewUserApplications = async (req, res) => {
     try {
-        const applications = await Application.find({ user: req.user.id }).populate("project", "name");
-        res.json(applications);
+      const applications = await Application.find({ user: req.user.id });
+  
+      const results = [];
+  
+      for (let application of applications) {
+        const appObj = application.toObject(); // convert Mongoose doc to plain object
+  
+        const project = await Project.findById(appObj.project);
+        if (project) {
+          const postedBy = await User.findById(project.postedBy, "name").lean();
+  
+          appObj.project = {
+            _id: project._id,
+            name: project.name,
+            description: project.description,
+            budget: project.budget,
+            status: project.status,
+            postedBy: postedBy.name, // this will be an object with only the name field
+          };
+
+          if (project.assignedTo) {
+            appObj.status = "Assigned to someone else";
+          } else {
+            appObj.status = "In review";
+          }
+        } else {
+          appObj.project = "Deleted Project";
+        }
+  
+        results.push(appObj);
+      }
+  
+      res.json(results);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
 };
-
+  
 module.exports = { applyForProject, viewProjectApplications, viewUserApplications };

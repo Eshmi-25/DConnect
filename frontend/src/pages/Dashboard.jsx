@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import EditProjectModal from "../components/EditProject";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -58,9 +58,8 @@ const Dashboard = () => {
     fetchProjects(); // Reload the list of projects
   };
 
-  const handleViewProfile = (email) => {
-    const mode = email === loggedInUserEmail ? "owner" : "view";
-    navigate(`/user/${email}?mode=${mode}`);
+  const handleViewProfile = () => {
+    navigate(`/profile/${profile._id}`);
   };
 
   const handleSaveProject = (updatedProject) => {
@@ -80,12 +79,22 @@ const Dashboard = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const profileRes = await axios.get(
-          "http://localhost:3000/api/users/fetch-profile"
+          `http://localhost:3000/api/users/fetch-profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setProfile(profileRes.data);
 
         const postedRes = await axios.get(
-          "http://localhost:3000/api/projects/posted"
+          "http://localhost:3000/api/projects/posted",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setPostedProjects(postedRes.data);
 
@@ -207,7 +216,13 @@ const Dashboard = () => {
               <button className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md">
                 <EditIcon /> Edit Profile
               </button>
-              <button className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md">
+              <button
+                className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleViewProfile();
+                }}
+              >
                 <VisibilityIcon /> View Full Profile
               </button>
             </div>
@@ -353,7 +368,7 @@ const Dashboard = () => {
                       <td className="p-3 text-sm">{project.description}</td>
                       <td
                         className="p-3 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
-                        onClick={() => handleViewProfile(project.clientEmail)}
+                        onClick={() => handleViewProfile()}
                       >
                         <Avatar src={project.clientAvatar} /> {project.postedBy}
                       </td>

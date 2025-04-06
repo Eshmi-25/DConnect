@@ -14,7 +14,7 @@ const ProjectApplications = () => {
   const [error, setError] = useState("");
 
   // Toggle- use mock data
-  const useMockData = true;
+  const useMockData = false;
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -113,11 +113,13 @@ const ProjectApplications = () => {
 
               <div className="bg-gray-700 p-4 rounded-lg text-sm space-y-2 text-gray-300">
                 {application.answers.map((answer, index) => (
-                  <div key={index}>
+                  <div key={index} className="flex flex-col gap-1">
                     <span className="text-purple-300 font-semibold">
-                      Q{index + 1}:
-                    </span>{" "}
-                    {answer}
+                      Q{index + 1}: {application.questions[index]}
+                    </span>
+                    <span>
+                      {answer}
+                    </span>
                   </div>
                 ))}
               </div>

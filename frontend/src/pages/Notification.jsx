@@ -27,12 +27,12 @@ const NotificationPage = () => {
         });
         
         console.log(response.data);
-        const formattedApplications = response.data.map(app => ({
-          ...app,
-          applicantName: app.user?.name || "Unknown Applicant",
-        }));
+        // const formattedApplications = response.data.map(app => ({
+        //   ...app,
+        //   applicantName: app.user?.name || "Unknown Applicant",
+        // }));
 
-        setApplications(formattedApplications);
+        setApplications(response.data);
       } catch (error) {
         console.error("Error fetching applications:", error.response?.data?.message || error.message);
         // setApplications([
@@ -134,12 +134,15 @@ const NotificationPage = () => {
               <div key={app._id} className="p-4 bg-gray-700 rounded-lg mb-3 flex justify-between items-center">
                 <div>
                   <p className="text-white font-semibold text-lg">{app.project.name}</p>
-                  <p className="text-gray-400">Applicant: {app.applicantName}</p>
-                  <p className={`text-${app.status === "Accepted" ? "green" : "yellow"}-400`}>Status: {app.status}</p>
+                  <p className="text-gray-400">Posted By: {app.project.postedBy}</p>
+                  <p className={`text-${app.status === "In review" ? "yellow" : "red"}-400`}>Status: {app.status}</p>
                 </div>
                 {app.status !== "Accepted" && (
-                  <button className="bg-blue-500 px-4 py-2 rounded-lg text-white" onClick={() => handleAccept(app._id)}>
-                    Accept
+                  <button className="bg-blue-500 px-4 py-2 rounded-lg text-white" onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/project-apply/${app.project._id}`);
+                  }}>
+                    View
                   </button>
                 )}
               </div>

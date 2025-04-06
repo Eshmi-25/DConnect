@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Project = require("../models/Project");
+const NFT = require("../models/NFT");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -62,9 +64,16 @@ const loginUser = async (req, res) => {
 // Get User Profile
 const getUserProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id);
+        const userId = req.params.id || req.user.id; // Use the ID from the request params or the authenticated user ID
+        const user = await User.findById(userId).select("-password");
         if (user) {
-            res.json(user);
+            const userObj = user.toObject();
+            if (user._id !== req.user.id) {
+                userObj.email = undefined;
+                userObj.password = undefined;
+                userObj.owner = true;
+            }
+            res.json(userObj);
         } else {
             res.status(404).json({ message: "User not found" });
         }
@@ -122,4 +131,40 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile, findUserByName };
+const getUserProjectData = async (req, res) => {
+    try {
+      const userId = req.params.id || req.user.id;
+  
+      const initiated = await Project.find({ postedBy: userId });
+      const completed = await Project.find({ assignedTo: userId, status: "completed" });
+      const assigned = await Project.find({ assignedTo: userId, status: "in-progress" });
+  
+      res.json({
+        initiated: initiated.length,
+        completed: completed.length,
+        assigned: assigned.length,
+      });
+    } catch (error) {
+      console.error("Error fetching user project data:", error);
+      res.status(500).json({ message: "Server Error" });
+    }
+  };
+  
+const getUserNFTs = async (req, res) => {
+try {
+    const userId = req.params.userId || req.user.id;
+
+    // Populate only the _id and name fields from the Project
+    const nfts = await NFT.find({ user: userId }).populate({
+    path: "project",
+    select: "name _id"
+    });
+
+    res.json(nfts);
+} catch (error) {
+    console.error("Error fetching NFTs:", error);
+    res.status(500).json({ message: "Server Error" });
+}
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile, findUserByName, getUserProjectData, getUserNFTs };
