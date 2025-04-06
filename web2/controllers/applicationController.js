@@ -71,8 +71,8 @@ const viewUserApplications = async (req, res) => {
             postedBy: postedBy.name, // this will be an object with only the name field
           };
 
-          if (project.assignedTo) {
-            appObj.status = "Assigned to someone else";
+          if (project.assignedTo || project.freelancerProposed) {
+            appObj.status = "Assigned";
           } else {
             appObj.status = "In review";
           }

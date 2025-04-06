@@ -73,6 +73,9 @@ const assignProject = async (req, res) => {
         }
 
         project.freelancerProposed = req.body.assignedTo;
+        project.agreedDueDate = req.body.agreedDueDate;
+        project.agreedAmount = req.body.agreedAmount;
+        project.status = "in-progress";
         const updatedProject = await project.save();
         res.json(updatedProject);
     } catch (error) {
@@ -90,6 +93,7 @@ const acceptProject = async (req, res) => {
 
         project.assignedTo = req.user.id;
         project.freelancerAccepted = true;
+        project.freelancerProposed = null;
         const updatedProject = await project.save();
         res.json(updatedProject);
     } catch (error) {
@@ -149,14 +153,48 @@ function checkDeliveryVerified(project) {
 // Sending list of projects with verification or acceptance status
 const listProjectsToVerify = async (req, res) => {
     try {
-        let projects = await Project.find({ assignedTo: req.user.id });
-        projects = projects.filter(checkPaymentVerifed);
-        projects = projects.filter(checkDeliveryVerified);
-        res.json(projects);
+      const userId = req.user.id;
+  
+      // Get all relevant projects (assigned or proposed)
+      let projects = await Project.find({
+        $or: [
+          { assignedTo: userId },
+          { freelancerProposed: userId },
+          { postedBy: userId },
+        ]
+      });
+  
+      // Build response list
+      const result = projects.map(project => {
+        const proposed = project.freelancerProposed?.toString() === userId;
+        const assigned = project.assignedTo?.toString() === userId;
+        const postedBy = project.postedBy?.toString() === userId;
+  
+        const paymentConfirmation =
+          (assigned && project.paymentConfirmationFreelancer === false) ||
+          (postedBy && project.paymentConfirmationProjectOwner === false);
+  
+        const deliveryConfirmation =
+          (assigned && project.deliveryConfirmationFreelancer === false) ||
+          (postedBy && project.deliveryConfirmationProjectOwner === false);
+  
+        return {
+            _id: project._id,
+            name: project.name,
+            assignedTo: project.assignedTo || "",
+            proposed,
+            paymentConfirmation,
+            deliveryConfirmation,
+            postedBy,
+        };
+      });
+  
+      res.json(result);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
-};
+  };
+  
 
 // list all open projects
 const listOpenProjects = async (req, res) => {

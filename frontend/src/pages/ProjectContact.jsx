@@ -9,10 +9,12 @@ import { TextField, Button } from "@mui/material";
 
 const API_BASE_URL = "http://localhost:3000/api";
 
-const ProjectContractPage = ({ token }) => {
+const ProjectContractPage = () => {
+  const token = localStorage.getItem("token");
   const { projectId, userId } = useParams(); // Extract from URL
   const navigate = useNavigate();
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(null);
+  const [user, setUser] = useState(null);
   const [selectedProject, setSelectedProject] = useState(projectId || ""); // Default to URL param if available
   const [deliveryDate, setDeliveryDate] = useState(null);
   const [paymentDate, setPaymentDate] = useState(null);
@@ -20,9 +22,13 @@ const ProjectContractPage = ({ token }) => {
 
   // Fetch user's projects for dropdown
   useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      return;
+    }
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}`, {
+        const response = await axios.get(`${API_BASE_URL}/projects/fetch-project/${projectId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProjects(response.data);
@@ -31,7 +37,19 @@ const ProjectContractPage = ({ token }) => {
       }
     };
 
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/users/fetch-profile/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error.response?.data?.message || error.message);
+      }
+    };
+
     fetchProjects();
+    fetchUser();
   }, [token]);
 
   // Handle Apply for Project
@@ -48,6 +66,22 @@ const ProjectContractPage = ({ token }) => {
         deliveryDate,
         paymentDate,
       });
+
+      await axios.put(
+        `${API_BASE_URL}/projects/${selectedProject}/assign`, {
+          assignedTo: userId,
+          agreedDueDate: deliveryDate,
+          agreedAmount: paymentDate,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      ).then((response) => {
+        console.log("Project assigned successfully:", response.data);
+      }).catch((error) => {
+        console.error("Error assigning project:", error.response?.data?.message || error.message);
+      });
+  
 
       setMessage("Project contract submitted successfully!");
     } catch (error) {
@@ -124,8 +158,8 @@ const ProjectContractPage = ({ token }) => {
 
         {/* Display Project ID and User ID */}
         <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-          <p className="text-gray-300"><span className="font-bold text-purple-300">Project ID:</span> {selectedProject || "Not selected"}</p>
-          <p className="text-gray-300"><span className="font-bold text-purple-300">User ID:</span> {userId || "Not available"}</p>
+          <p className="text-gray-300"><span className="font-bold text-purple-300">Project ID:</span> {projects?.name}</p>
+          <p className="text-gray-300"><span className="font-bold text-purple-300">User ID:</span> {user?.name}</p>
         </div>
 
         {/* Agreed Delivery Date */}
@@ -138,9 +172,9 @@ const ProjectContractPage = ({ token }) => {
         />
 
         {/* Payment Date */}
-        <label className="block text-white mt-4">Payment Date</label>
+        <label className="block text-white mt-4">Payment Amount</label>
         <input
-          type="datetime-local"
+          type="number"
           value={paymentDate}
           onChange={(e) => setPaymentDate(e.target.value)}
           className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
