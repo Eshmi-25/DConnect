@@ -164,7 +164,7 @@ const ProfilePage = () => {
               </button>
               <Avatar
                 sx={{
-                  bgcolor: stringToColor(userData?.name || "U"),
+                  bgcolor: stringToColor(snap.userName || "U"),
                   color: "white",
                 }}
                 onClick={() => navigate("/dashboard")}

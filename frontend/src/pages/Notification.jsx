@@ -3,13 +3,18 @@ import SearchIcon from "@mui/icons-material/Search";
 import Logo from "../assets/logo.png";
 import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
 import User_Avatar from "../assets/image.png";
+import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mui/material";
+import { useSnapshot } from "valtio";
+import userStore from "../store/userStore";
+import stringToColor from "../string_to_color";
 
 const API_BASE_URL = "http://localhost:3000/api";
 
 const NotificationPage = () => {
+  const snap = useSnapshot(userStore);
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [verifications, setVerifications] = useState([]);
@@ -173,12 +178,15 @@ const NotificationPage = () => {
           >
             Log Out
           </button>
-          <img
-            src={User_Avatar}
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full cursor-pointer"
+          <Avatar
+            sx={{
+              bgcolor: stringToColor(snap.userName || "U"),
+              color: "white",
+            }}
             onClick={() => navigate("/dashboard")}
-          />
+          >
+            {(snap.userName || "U").charAt(0).toUpperCase()}
+          </Avatar>
         </div>
       </div>
       <hr className="border-purple-400 mb-6" />

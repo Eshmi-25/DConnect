@@ -10,8 +10,12 @@ import Image_Avatar from "../assets/image.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useSnapshot } from "valtio";
+import userStore from "../store/userStore";
+import stringToColor from "../string_to_color";
 
 const CreateProject = () => {
+  const snap = useSnapshot(userStore);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -65,30 +69,33 @@ const CreateProject = () => {
       return;
     }
 
-    await axios.post(
-      "http://localhost:3000/api/projects/create",
-      {
-        ...formData,
-        keywords: formData.keywords.split(","),
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+    await axios
+      .post(
+        "http://localhost:3000/api/projects/create",
+        {
+          ...formData,
+          keywords: formData.keywords.split(","),
         },
-      }
-    ).then((response) => {
-      console.log(response.data);
-      setMessage("Project created successfully!");
-      alert("Project created successfully!");
-      setLoading(false);
-    }).catch((error) => {
-      console.error(error.response.data.message);
-      setMessage("Error creating project. Please try again.");
-      alert(error.response.data.message);
-      setLoading(false);
-      return;
-    });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setMessage("Project created successfully!");
+        alert("Project created successfully!");
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error.response.data.message);
+        setMessage("Error creating project. Please try again.");
+        alert(error.response.data.message);
+        setLoading(false);
+        return;
+      });
   };
 
   return (
@@ -115,12 +122,15 @@ const CreateProject = () => {
         >
           Log Out
         </button>
-        <img
-          src={Image_Avatar}
-          alt="User Avatar"
-          className="w-10 h-10 rounded-full cursor-pointer"
+        <Avatar
+          sx={{
+            bgcolor: stringToColor(snap.userName || "U"),
+            color: "white",
+          }}
           onClick={() => navigate("/dashboard")}
-        />
+        >
+          {(snap.userName || "U").charAt(0).toUpperCase()}
+        </Avatar>
       </div>
       <hr className="border-purple-400 mb-4" />
       {/* Main Content */}

@@ -8,8 +8,12 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import User_Avatar from "../assets/image.png";
 import { useNavigate } from "react-router-dom";
+import { useSnapshot } from "valtio";
+import userStore from "../store/userStore";
+import stringToColor from "../string_to_color";
 
 const JobDetails = () => {
+  const snap = useSnapshot(userStore);
   const { projectId } = useParams(); // Get projectId from URL
   const token = localStorage.getItem("token"); // Get token from localStorage
   const navigate = useNavigate();
@@ -97,12 +101,15 @@ const JobDetails = () => {
                 <SearchIcon />
               </button>
             </div>
-            <img
-              src={User_Avatar}
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full cursor-pointer"
+            <Avatar
+              sx={{
+                bgcolor: stringToColor(snap.userName || "U"),
+                color: "white",
+              }}
               onClick={() => navigate("/dashboard")}
-            />
+            >
+              {(snap.userName || "U").charAt(0).toUpperCase()}
+            </Avatar>
           </div>
 
           {/* Divider Line */}
@@ -125,9 +132,24 @@ const JobDetails = () => {
                 {projectDetails?.name}
               </h1>
               <div className="text-gray-400 text-sm mt-2 flex items-center gap-2">
-                <Avatar alt="vincenzo cassano" src={image_avatar} />
+                <Avatar
+                  sx={{
+                    bgcolor: stringToColor(
+                      projectDetails?.postedBy?.name || "U"
+                    ),
+                    color: "white",
+                  }}
+                  onClick={() => navigate(`/profile/${projectDetails?.postedBy?._id}`)}
+                >
+                  {(projectDetails?.postedBy?.name || "U")
+                    .charAt(0)
+                    .toUpperCase()}
+                </Avatar>
                 <span>
-                  Posted by: <span className="text-white">{projectDetails?.postedBy?.name}</span>
+                  Posted by:{" "}
+                  <span className="text-white">
+                    {projectDetails?.postedBy?.name}
+                  </span>
                 </span>
               </div>
 
@@ -152,7 +174,9 @@ const JobDetails = () => {
               <h2 className="text-xl font-semibold mt-4 text-purple-400">
                 Estimated Duration
               </h2>
-              <p className="text-gray-300 text-sm">{projectDetails?.estdDuration}</p>
+              <p className="text-gray-300 text-sm">
+                {projectDetails?.estdDuration}
+              </p>
 
               <h2 className="text-xl font-semibold mt-4 text-purple-400">
                 Required Skills

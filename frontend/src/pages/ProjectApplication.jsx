@@ -3,11 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mui/material";
 import GavelIcon from "@mui/icons-material/Gavel";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 import User_Avatar from "../assets/image.png";
 import Logo from "../assets/logo.png";
+import { useSnapshot } from "valtio";
+import userStore from "../store/userStore";
+import stringToColor from "../string_to_color";
 
 const ProjectApplications = () => {
+  const snap = useSnapshot(userStore);
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
@@ -66,28 +70,29 @@ const ProjectApplications = () => {
   }, [projectId]);
 
   const handleCreateContract = (userId) => {
-    navigate(`/projectcontract/${projectId}/${userId}`); 
+    navigate(`/projectcontract/${projectId}/${userId}`);
   };
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-10">
-        <div className="flex justify-between items-center mb-8">
-                
-                <div>
-                  <img src={Logo} alt="Logo" className="w-25 h-25" />
-                </div>
-      <h1 className="text-2xl font-bold text-purple-400 mb-6">
-        Applications for Project
-      </h1>
-       <img
-               src={User_Avatar}
-               alt="User Avatar"
-               className="w-10 h-10 rounded-full cursor-pointer"
-              onClick={() => navigate("/dashboard")}
-                                  />
-    </div>
-    <hr className="border-purple-400 mb-4" />
-      
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <img src={Logo} alt="Logo" className="w-25 h-25" />
+        </div>
+        <h1 className="text-2xl font-bold text-purple-400 mb-6">
+          Applications for Project
+        </h1>
+        <Avatar
+          sx={{
+            bgcolor: stringToColor(snap.userName|| "U"),
+            color: "white",
+          }}
+          onClick={() => navigate("/dashboard")}
+        >
+          {(snap.userName || "U").charAt(0).toUpperCase()}
+        </Avatar>
+      </div>
+      <hr className="border-purple-400 mb-4" />
 
       {error && <p className="text-red-400">{error}</p>}
 
@@ -117,9 +122,7 @@ const ProjectApplications = () => {
                     <span className="text-purple-300 font-semibold">
                       Q{index + 1}: {application.questions[index]}
                     </span>
-                    <span>
-                      {answer}
-                    </span>
+                    <span>{answer}</span>
                   </div>
                 ))}
               </div>

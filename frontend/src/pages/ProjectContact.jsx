@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
+import Avatar from "@mui/material/Avatar";
 import User_Avatar from "../assets/image.png";
 import Logo from "../assets/logo.png";
 import axios from "axios";
 import { TextField, Button } from "@mui/material";
+import { useSnapshot } from "valtio";
+import userStore from "../store/userStore";
+import stringToColor from "../string_to_color";
 
 const API_BASE_URL = "http://localhost:3000/api";
 
 const ProjectContractPage = () => {
+  const snap = useSnapshot(userStore);
   const token = localStorage.getItem("token");
   const { projectId, userId } = useParams(); // Extract from URL
   const navigate = useNavigate();
@@ -28,23 +33,35 @@ const ProjectContractPage = () => {
     }
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/projects/fetch-project/${projectId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${API_BASE_URL}/projects/fetch-project/${projectId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setProjects(response.data);
       } catch (error) {
-        console.error("Error fetching projects:", error.response?.data?.message || error.message);
+        console.error(
+          "Error fetching projects:",
+          error.response?.data?.message || error.message
+        );
       }
     };
 
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/users/fetch-profile/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${API_BASE_URL}/users/fetch-profile/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUser(response.data);
       } catch (error) {
-        console.error("Error fetching user:", error.response?.data?.message || error.message);
+        console.error(
+          "Error fetching user:",
+          error.response?.data?.message || error.message
+        );
       }
     };
 
@@ -67,21 +84,27 @@ const ProjectContractPage = () => {
         paymentDate,
       });
 
-      await axios.put(
-        `${API_BASE_URL}/projects/${selectedProject}/assign`, {
-          assignedTo: userId,
-          agreedDueDate: deliveryDate,
-          agreedAmount: paymentDate,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      ).then((response) => {
-        console.log("Project assigned successfully:", response.data);
-      }).catch((error) => {
-        console.error("Error assigning project:", error.response?.data?.message || error.message);
-      });
-  
+      await axios
+        .put(
+          `${API_BASE_URL}/projects/${selectedProject}/assign`,
+          {
+            assignedTo: userId,
+            agreedDueDate: deliveryDate,
+            agreedAmount: paymentDate,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((response) => {
+          console.log("Project assigned successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error(
+            "Error assigning project:",
+            error.response?.data?.message || error.message
+          );
+        });
 
       setMessage("Project contract submitted successfully!");
     } catch (error) {
@@ -107,18 +130,27 @@ const ProjectContractPage = () => {
           </button>
         </div>
         <div className="flex items-center gap-4">
-          <button className="bg-gray-800 p-2 rounded" onClick={() => navigate("/explore")}>
+          <button
+            className="bg-gray-800 p-2 rounded"
+            onClick={() => navigate("/explore")}
+          >
             <TravelExploreOutlinedIcon />
           </button>
-          <button className="bg-purple-600 px-4 py-2 rounded" onClick={() => navigate("/")}>
+          <button
+            className="bg-purple-600 px-4 py-2 rounded"
+            onClick={() => navigate("/")}
+          >
             Log Out
           </button>
-          <img
-            src={User_Avatar}
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full cursor-pointer"
+          <Avatar
+            sx={{
+              bgcolor: stringToColor(snap.userName || "U"),
+              color: "white",
+            }}
             onClick={() => navigate("/dashboard")}
-          />
+          >
+            {(snap.userName || "U").charAt(0).toUpperCase()}
+          </Avatar>
         </div>
       </div>
       <hr className="border-purple-400 mb-4" />
@@ -126,17 +158,30 @@ const ProjectContractPage = () => {
       {/* Header Section */}
       <div className="text-left mb-6">
         <p className="text-gray-400">Found the right project?</p>
-        <h1 className="text-3xl font-bold text-purple-400">Generate Project Contract</h1>
+        <h1 className="text-3xl font-bold text-purple-400">
+          Generate Project Contract
+        </h1>
         <p className="text-gray-300 mt-2">
-        We’re so glad you found the right fit! It is strongly recommended that before generating this contract, you connect with your preferred candidate using their e-mail and work out the following details: 
+          We’re so glad you found the right fit! It is strongly recommended that
+          before generating this contract, you connect with your preferred
+          candidate using their e-mail and work out the following details:
         </p>
         <ul className="list-disc list-inside text-gray-400 mt-2">
           <li>A deadline range during which the project has to be delivered</li>
           <li>The payment that has to be made</li>
-          <li>A hard deadline on which the payment has to be completed in full</li>
+          <li>
+            A hard deadline on which the payment has to be completed in full
+          </li>
         </ul>
-        <p className="text-gray-300 mt-2">Besides these, it is also helpful to set the right expectations and agree on deliverables. However, these cannot be tracked using D-Connect currently and we take no responsibility for it.</p>
-        <p className="block text-red-400 mt-6">*D-Connect does not guarantee that the selected candidate will accept the contract.</p>
+        <p className="text-gray-300 mt-2">
+          Besides these, it is also helpful to set the right expectations and
+          agree on deliverables. However, these cannot be tracked using
+          D-Connect currently and we take no responsibility for it.
+        </p>
+        <p className="block text-red-400 mt-6">
+          *D-Connect does not guarantee that the selected candidate will accept
+          the contract.
+        </p>
       </div>
 
       {/* Contract Form */}
@@ -158,8 +203,14 @@ const ProjectContractPage = () => {
 
         {/* Display Project ID and User ID */}
         <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-          <p className="text-gray-300"><span className="font-bold text-purple-300">Project ID:</span> {projects?.name}</p>
-          <p className="text-gray-300"><span className="font-bold text-purple-300">User ID:</span> {user?.name}</p>
+          <p className="text-gray-300">
+            <span className="font-bold text-purple-300">Project ID:</span>{" "}
+            {projects?.name}
+          </p>
+          <p className="text-gray-300">
+            <span className="font-bold text-purple-300">User ID:</span>{" "}
+            {user?.name}
+          </p>
         </div>
 
         {/* Agreed Delivery Date */}
