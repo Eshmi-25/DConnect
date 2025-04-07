@@ -181,12 +181,12 @@ const Dashboard = () => {
           <NotificationsIcon />
         </button>
 
-        <button
+        {/* <button
           className="bg-gray-800 p-2 rounded"
           onClick={() => navigate("/explore")}
         >
           <TravelExploreOutlinedIcon />
-        </button>
+        </button> */}
         <button
           className="bg-purple-600 px-4 py-2 rounded"
           onClick={(e) => {
@@ -223,14 +223,17 @@ const Dashboard = () => {
           </h2>
           {/* Profile Card */}
           <div className="bg-gray-800 p-6 rounded-2xl border border-blue-500 flex flex-col items-center text-center mb-4">
-            <div className="absolute right-2 bg-purple-500 p-1 rounded-full">
+            {/* <div className="absolute right-2 bg-purple-500 p-1 rounded-full">
               <CameraAltIcon className="text-white text-sm" />
-            </div>
+            </div> */}
 
             <Avatar
               sx={{
                 bgcolor: stringToColor(profile.name || "U"),
                 color: "white",
+                height: 64,
+                width: 64,
+                fontSize: 32,
               }}
             >
               {(profile?.name || "U").charAt(0).toUpperCase()}
@@ -238,9 +241,9 @@ const Dashboard = () => {
             <h2 className="text-lg font-bold text-whitemt-4">{profile.name}</h2>
 
             <div className="flex gap-4 mt-4">
-              <button className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md">
+              {/* <button className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md">
                 <EditIcon /> Edit Profile
-              </button>
+              </button> */}
               <button
                 className="bg-purple-500 text-white px-4 py-2 rounded flex items-center gap-2 shadow-md cursor-pointer"
                 onClick={(e) => {

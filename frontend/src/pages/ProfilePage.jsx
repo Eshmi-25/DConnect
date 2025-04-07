@@ -7,6 +7,7 @@ import Logo from "../assets/logo.png";
 import NFT1 from "../assets/badge.png";
 import NFT2 from "../assets/client_badge.png";
 import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import SourceIcon from "@mui/icons-material/Source";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -146,10 +147,16 @@ const ProfilePage = () => {
             <div className="flex items-center gap-4">
               <button
                 className="bg-gray-800 p-2 rounded"
+                onClick={() => navigate("/notification")}
+              >
+                <NotificationsIcon />
+              </button>
+              {/* <button
+                className="bg-gray-800 p-2 rounded"
                 onClick={() => navigate("/explore")}
               >
                 <TravelExploreOutlinedIcon />
-              </button>
+              </button> */}
               <button
                 className="bg-gray-800 p-2 rounded"
                 onClick={() => navigate("/projectcreation")}
@@ -188,7 +195,7 @@ const ProfilePage = () => {
                   color: "white",
                   width: 150,
                   height: 150,
-                  fontSize: 48
+                  fontSize: 48,
                 }}
               >
                 {(userData?.name || "U").charAt(0).toUpperCase()}
