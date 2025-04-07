@@ -98,14 +98,6 @@ const NotificationPage = () => {
     fetchOpenProjects();
   }, [token]);
 
-  const handleVerify = (id) => {
-    setVerifications(
-      verifications.map((item) =>
-        item.id === id ? { ...item, status: "Verified" } : item
-      )
-    );
-  };
-
   const handleAccept = async (id) => {
     await axios
       .put(
@@ -131,31 +123,26 @@ const NotificationPage = () => {
       });
   };
 
-  const handlePayment = async (verify) => {
-    await axios
-    .post (
-      `${API_BASE_URL}/nfts/add-nft`,
-      {
-        projectId: verify._id,
-        type: verify.postedBy? "freelancer": "project owner",
-        userId: verify.postedBy? verify.assignedTo: verify.postedByUser,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    ).then((response) => {
-      alert("NFT created successfully!");
-      console.log("NFT created successfully:", response.data);
-    }).catch((error) => {
-      alert(
-        "Error creating NFT:",
-        error.response?.data?.message || error.message
-      );
-      console.error(
-        "Error creating NFT:",
-        error.response?.data?.message || error.message
-      );
-    });
+  const handleVerify = async (verify, pendingType) => {
+    if (verify.verificationType === "Pending") {
+      await axios
+        .post(
+          `${API_BASE_URL}/nfts/add-nft`,
+          {
+            projectId: verify._id,
+            confirmationType: pendingType,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          alert("Verified");
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          alert(err.response?.data?.message || err.message);
+        });
+    }
   };
 
   return (
@@ -257,54 +244,79 @@ const NotificationPage = () => {
         </p>
         <div className="bg-gray-800 p-6 rounded-lg border border-blue-500">
           {verifications.length > 0 ? (
-            verifications.map((verify) => (
-              <div
-                key={verify._id}
-                className="p-4 bg-gray-700 rounded-lg mb-3 flex justify-between items-center"
-              >
-                <div>
-                  <p className="text-white font-semibold text-lg">
-                    {verify.name}
-                  </p>
-                  <p
-                    className={`text-${
-                      verify.status === "Verified" ? "green" : "yellow"
-                    }-400`}
-                  >
-                    Status:{" "}
-                    {verify.proposed
-                      ? "Proposed contract"
-                      : verify.assignedTo ? "Assigned" : "Pending"}
-                  </p>
-                </div>
-                {verify.proposed && !verify.postedBy ? (
-                  <Button
-                    variant="contained"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleAccept(verify._id);
-                    }}
-                  >
-                    Accept Project
-                  </Button>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    {!verify.payment && verify.assignedTo ? (
-                      <Button variant="contained" onClick={(e)=>{
-                        e.preventDefault();
-                        handlePayment(verify);
-                      }}>Verify Payment</Button>
-                    ) : null}
-
-                    {!verify.delivery && verify.assignedTo ? (
-                      <Button variant="contained">Verify Delivery</Button>
-                    ) : null}
+            <div>
+              {verifications.map((verify, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-gray-700 rounded-lg mb-3 flex justify-between items-center"
+                >
+                  <div className="flex flex-col gap-1">
+                    <span className="text-white font-semibold text-lg">
+                      {verify.name}
+                    </span>
+                    <span
+                      className={`${
+                        verify.verificationType === "Completed"
+                          ? "text-green-400"
+                          : "text-yellow-400"
+                      }`}
+                    >
+                      Status:{" "}
+                      {verify.verificationType === "Completed"
+                        ? "Completed"
+                        : verify.verificationType === "None"
+                        ? "Open"
+                        : verify.verificationType == "Waiting"
+                        ? "Waiting for Freelancer"
+                        : "Pending Verification"}
+                    </span>
                   </div>
-                )}
-              </div>
-            ))
+                  <div>
+                    {verify.verificationType === "None" && verify.owner ? (
+                      <Button
+                        variant="contained"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/applications/${verify._id}`);
+                        }}
+                      >
+                        View Applications
+                      </Button>
+                    ) : verify.verificationType === "Pending" ? (
+                      <div className="flex flex-col gap-2">
+                        {verify.pending.map((type, index) => (
+                          <Button
+                            key={index}
+                            variant="contained"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleVerify(verify, type);
+                            }}
+                          >
+                            Verify {type}
+                          </Button>
+                        ))}
+                      </div>
+                    ) : verify.verificationType === "Waiting" &&
+                      !verify.owner ? (
+                      <Button
+                        variant="contained"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleAccept(verify._id);
+                        }}
+                      >
+                        Accept
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
-            <p className="text-gray-400">No verifications pending.</p>
+            <div>No verifications pending.</div>
           )}
         </div>
       </div>

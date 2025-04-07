@@ -7,7 +7,7 @@ import Project_Banner from "../assets/project_banner.png";
 import Logo from "../assets/logo.png";
 import ProfilePic from "../assets/image1.png";
 import NFT1 from "../assets/badge.png";
-import NFT2 from "../assets/badge.png";
+import NFT2 from "../assets/client_badge.png";
 import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
 import SourceIcon from "@mui/icons-material/Source";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
