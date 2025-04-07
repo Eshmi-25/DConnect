@@ -58,7 +58,22 @@ const listUserPostedProjects = async (req, res) => {
 const listUserAssignedProjects = async (req, res) => {
     try {
         const projects = await Project.find({ assignedTo: req.user.id });
-        res.json(projects);
+        const results = [];
+
+        for (let project of projects) {
+            let projObj = project.toObject();
+            
+            // Use findById instead of find
+            const user = await User.findById(projObj.postedBy);
+            projObj.postedBy = {
+                name: user?.name,
+                _id: user?._id
+            };
+
+            results.push(projObj);
+        }
+
+        res.json(results);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -167,7 +182,7 @@ const listProjectsToVerify = async (req, res) => {
         const isOwner = project.postedBy?.toString() === userId;
         const isAssigned = project.assignedTo?.toString() === userId;
 
-        let verificationType = "None";
+        let verificationType = "Pending";
         let pending = [];
   
         if (project.status === "open") {
@@ -194,7 +209,7 @@ const listProjectsToVerify = async (req, res) => {
         } else if (project.status === "completed") {
           verificationType = "Completed";
         }
-        
+
         const response = {
           _id: project._id,
           name: project.name,
@@ -228,7 +243,10 @@ const listOpenProjects = async (req, res) => {
         const result = await Promise.all(projects.map(async (project) => {
             const user = await User.findById(project.postedBy);
             const projObj = project.toObject(); // convert from Mongoose document to plain JS object
-            projObj.postedBy = user?.name || "Unknown";
+            projObj.postedBy = {
+                name: user?.name,
+                _id: user?._id
+            }
             return projObj;
         }));
 

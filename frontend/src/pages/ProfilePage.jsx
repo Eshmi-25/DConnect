@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { FaShareAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import User_Avatar from "../assets/image.png";
 import Project_Banner from "../assets/project_banner.png";
 import Logo from "../assets/logo.png";
-import ProfilePic from "../assets/image1.png";
 import NFT1 from "../assets/badge.png";
 import NFT2 from "../assets/client_badge.png";
 import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined";
@@ -19,8 +17,12 @@ import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Avatar from "@mui/material/Avatar";
+import { useSnapshot } from "valtio";
+import userStore from "../store/userStore";
 
 const ProfilePage = () => {
+  const snap = useSnapshot(userStore);
   const userId = useParams().userId;
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
@@ -35,6 +37,19 @@ const ProfilePage = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
     });
+  };
+
+  const stringToColor = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const color =
+      "#" +
+      ((hash >> 24) & 0xff).toString(16).padStart(2, "0") +
+      ((hash >> 16) & 0xff).toString(16).padStart(2, "0") +
+      ((hash >> 8) & 0xff).toString(16).padStart(2, "0");
+    return color;
   };
 
   useEffect(() => {
@@ -147,12 +162,15 @@ const ProfilePage = () => {
               >
                 Log Out
               </button>
-              <img
-                src={User_Avatar}
-                alt="User Avatar"
-                className="w-10 h-10 rounded-full cursor-pointer"
+              <Avatar
+                sx={{
+                  bgcolor: stringToColor(userData?.name || "U"),
+                  color: "white",
+                }}
                 onClick={() => navigate("/dashboard")}
-              />
+              >
+                {(snap.userName || "U").charAt(0).toUpperCase()}
+              </Avatar>
             </div>
           </div>
 
@@ -164,11 +182,17 @@ const ProfilePage = () => {
               className="w-full rounded-lg mb-10"
             />
             <div className="absolute -bottom-15 left-10">
-              <img
-                src={ProfilePic}
-                alt="Profile"
-                className="w-48 h-48 rounded-full border-4 border-grey-600 shadow-lg"
-              />
+              <Avatar
+                sx={{
+                  bgcolor: stringToColor(userData?.name || "U"),
+                  color: "white",
+                  width: 150,
+                  height: 150,
+                  fontSize: 48
+                }}
+              >
+                {(userData?.name || "U").charAt(0).toUpperCase()}
+              </Avatar>
             </div>
           </div>
 

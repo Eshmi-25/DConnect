@@ -167,4 +167,12 @@ try {
 }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile, findUserByName, getUserProjectData, getUserNFTs };
+const getUserName = async(req, res) => {
+    const user = await User.findById(req.params.id);
+    if(user) {
+        return res.status(200).json({"name": user.name});
+    }
+    return res.status(500).json({"message": "Server Error"});
+}
+
+module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile, findUserByName, getUserProjectData, getUserNFTs, getUserName };

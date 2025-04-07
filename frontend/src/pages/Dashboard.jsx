@@ -70,6 +70,19 @@ const Dashboard = () => {
     );
   };
 
+  const stringToColor = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const color =
+      "#" +
+      ((hash >> 24) & 0xff).toString(16).padStart(2, "0") +
+      ((hash >> 16) & 0xff).toString(16).padStart(2, "0") +
+      ((hash >> 8) & 0xff).toString(16).padStart(2, "0");
+    return color;
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
       const token = localStorage.getItem("token");
@@ -184,12 +197,21 @@ const Dashboard = () => {
         >
           Log Out
         </button>
-        <img
+        {/* <img
           src={Image_Avatar}
           alt="User Avatar"
           className="w-10 h-10 rounded-full cursor-pointer"
           onClick={() => navigate("/dashboard")}
-        />
+        /> */}
+        <Avatar
+          sx={{
+            bgcolor: stringToColor(profile?.name || "U"),
+            color: "white",
+          }}
+          onClick={() => navigate("/dashboard")}
+        >
+          {(profile?.name || "U").charAt(0).toUpperCase()}
+        </Avatar>
       </div>
       <hr className="border-purple-400 mb-4" />
 
@@ -206,10 +228,13 @@ const Dashboard = () => {
             </div>
 
             <Avatar
-              alt="Vincenzo Cassano"
-              src={Image_Avatar}
-              sx={{ width: 106, height: 106 }}
-            />
+              sx={{
+                bgcolor: stringToColor(profile.name || "U"),
+                color: "white",
+              }}
+            >
+              {(profile?.name || "U").charAt(0).toUpperCase()}
+            </Avatar>
             <h2 className="text-lg font-bold text-whitemt-4">{profile.name}</h2>
 
             <div className="flex gap-4 mt-4">
@@ -310,8 +335,23 @@ const Dashboard = () => {
                         >
                           <td className="p-4 rounded-l-xl">{job.name}</td>
                           <td className="p-4 text-sm">{job.description}</td>
-                          <td className="p-4 text-sm flex items-center gap-2">
-                            <Avatar src={job.avatar} /> {job.postedBy}
+                          <td
+                            className="p-3 text-sm flex items-center gap-2 cursor-pointer"
+                            onClick={() => {
+                              navigate(`/profile/${job.postedBy._id}`);
+                            }}
+                          >
+                            <Avatar
+                              sx={{
+                                bgcolor: stringToColor(
+                                  job.postedBy?.name || "U"
+                                ),
+                                color: "white",
+                              }}
+                            >
+                              {job.postedBy?.name.charAt(0).toUpperCase()}
+                            </Avatar>{" "}
+                            {job.postedBy.name}
                           </td>
                           <td className="p-4 text-sm">{job.estdDuration}</td>
                           <td className="p-4 text-sm rounded-r-xl">
@@ -367,10 +407,22 @@ const Dashboard = () => {
                       <td className="p-3">{project.name}</td>
                       <td className="p-3 text-sm">{project.description}</td>
                       <td
-                        className="p-3 text-sm flex items-center gap-2 cursor-pointer text-blue-400 underline"
-                        onClick={() => handleViewProfile()}
+                        className="p-3 text-sm flex items-center gap-2 cursor-pointer"
+                        onClick={() => {
+                          navigate(`/profile/${project.postedBy._id}`);
+                        }}
                       >
-                        <Avatar src={project.clientAvatar} /> {project.postedBy}
+                        <Avatar
+                          sx={{
+                            bgcolor: stringToColor(
+                              project.postedBy?.name || "U"
+                            ),
+                            color: "white",
+                          }}
+                        >
+                          {project.postedBy?.name.charAt(0).toUpperCase()}
+                        </Avatar>{" "}
+                        {project.postedBy.name}
                       </td>
                       <td className="p-3 text-sm">{project.agreedDueDate}</td>
                     </tr>
@@ -427,7 +479,14 @@ const Dashboard = () => {
                   {project.name}
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-1/4 text-gray-300">
-                  <Avatar src={Image} />
+                  <Avatar
+                    sx={{
+                      bgcolor: stringToColor(project.postedBy || "U"),
+                      color: "white",
+                    }}
+                  >
+                    {project.postedBy.charAt(0).toUpperCase()}
+                  </Avatar>
                   <span className="font-semibold">{project.postedBy}</span>
                 </div>
                 <div className="w-full md:w-1/2 text-sm text-gray-400">
